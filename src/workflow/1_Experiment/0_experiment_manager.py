@@ -13,7 +13,7 @@ import math, time
 from copy import deepcopy
 import random
 import re, linecache, gc, csv, scipy, shutil
-from pyDOE import * # SOURCE: https://pypi.org/project/lhsmdu/. https://pythonhosted.org/pyDOE/randomized.html#latin-hypercube
+from pydoe import * # SOURCE: https://pypi.org/project/lhsmdu/. https://pythonhosted.org/pyDOE/randomized.html#latin-hypercube
 import pyarrow
 import pickle
 
