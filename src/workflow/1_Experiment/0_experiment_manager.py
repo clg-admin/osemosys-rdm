@@ -743,7 +743,7 @@ def main_executer(n1, Executed_Scenario, time_vector, scenario_list,solver,osemo
         print('!!! At execution, we skip: future ', str_fut, ' and scenario ', str_scen, ' !!!' )
         #
     #
-def function_C_mathprog_parallel( fut_index, scen, inherited_scenarios, unpackaged_useful_elements, num_time_slices_SDP):
+def function_C_mathprog_parallel( fut_index, scen, inherited_scenarios, unpackaged_useful_elements, num_time_slices_SDP, region):
     #
     scenario_list =                     unpackaged_useful_elements[0]
     S_DICT_sets_structure =             unpackaged_useful_elements[1]
@@ -1110,7 +1110,7 @@ def function_C_mathprog_parallel( fut_index, scen, inherited_scenarios, unpackag
     #
     # Pre-process the data file to add commodity-technology-mode sets and CRF/PvAnnuity
     from preprocess_data import main as preprocess_main
-    preprocess_main(g_path, g_path)
+    preprocess_main(g_path, g_path, region)
     #
     ###########################################################################################################################
     # Furthermore, we must print the inputs separately for fast deployment of the input matrix:
@@ -2944,7 +2944,7 @@ if __name__ == '__main__':
                         if scenario_list_print[fut_id_new] in scenario_list:
                             # synthesized_all_data_row = function_C_mathprog_parallel(n2, inherited_scenarios, packaged_useful_elements, num_time_slices_SDP)
                             # sys.exit(6)
-                            p = mp.Process(target=function_C_mathprog_parallel, args=(n2, fut_id_new, inherited_scenarios, packaged_useful_elements, num_time_slices_SDP))
+                            p = mp.Process(target=function_C_mathprog_parallel, args=(n2, fut_id_new, inherited_scenarios, packaged_useful_elements, num_time_slices_SDP, region))
                             processes.append(p)
                             p.start()
                         else:
@@ -2966,7 +2966,7 @@ if __name__ == '__main__':
             for fut_id_new in range(len(scenario_list_print)):
                 x = len(all_futures)# * len(scenario_list_print)
                 for n in range(x):
-                    function_C_mathprog_parallel(n, fut_id_new, inherited_scenarios, packaged_useful_elements, num_time_slices_SDP)
+                    function_C_mathprog_parallel(n, fut_id_new, inherited_scenarios, packaged_useful_elements, num_time_slices_SDP, region)
 
 
         '''

@@ -35,7 +35,7 @@ need to be introduced to its associated OSeMOSYS model file::
 
 Usage::
 
-    python preprocess_data_muio.py <infile> <outfile>
+    python preprocess_data_muio.py <infile> <outfile> <region>
 
 """
 
@@ -56,7 +56,7 @@ def parse_set_line(line):
     return []
 
 
-def main(data_infile, data_outfile):
+def main(data_infile, data_outfile, region):
 
     # =========================================================================
     # STEP 1 - Read lines, filtering out any previous preprocessing output
@@ -340,14 +340,14 @@ def main(data_infile, data_outfile):
         )
         lines.append("{}:=\n".format(techs_string))
         rt = " ".join(str(CapitalRecoveryFactor[t]) for t in tech_list)
-        lines.append("RE1 {} \n".format(rt))
+        lines.append("{} {} \n".format(region, rt))
         lines.append(";\n")
 
         # Append PvAnnuity param to lines
         lines.append("param PvAnnuity default 0 : \n")
         lines.append("{}:=\n".format(techs_string))
         rt = " ".join(str(PvAnnuity[t]) for t in tech_list)
-        lines.append("RE1 {} \n".format(rt))
+        lines.append("{} {} \n".format(region, rt))
         lines.append(";\n")
 
     # =========================================================================
