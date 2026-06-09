@@ -895,7 +895,8 @@ if __name__ == '__main__':
             add_str = '4. Selecting the data to create tables'
             print(add_str)
             pmrep.write(add_str + '\n')
-            use_pfd = comp_pfd[exp_ID]['Scenario1']
+            available_scenarios = list(comp_pfd[exp_ID].keys())
+            use_pfd = comp_pfd[exp_ID][available_scenarios[0]]
             future_list = list(use_pfd.keys())
             future_list.sort()
 
@@ -1643,7 +1644,7 @@ if __name__ == '__main__':
                     o_d_col_fam_dict = subtbl_col_cntrl[b][o]['o_d_cfd']
                     o_d_col_fam_dict_names = subtbl_col_cntrl[b][o]['o_d_cfdn']
 
-                    per_list = period_list
+                    per_list = list(subtbl[b][o].keys())
                     for py in range(len(per_list)):
                         per_name = per_list[py]
                         for fam in range(len(o_d_col_fam_list)):
@@ -1661,6 +1662,7 @@ if __name__ == '__main__':
 
                             this_df_raw = subtbl[b][o][per_name][this_fam_key]
                             this_df_raw = this_df_raw.fillna(0)
+                            this_df_raw = this_df_raw.loc[:, ~this_df_raw.columns.duplicated()]
 
                             # Filter the normalized dataframe:
                             unique_strats = list(set(this_df_raw['Strat_ID']))
