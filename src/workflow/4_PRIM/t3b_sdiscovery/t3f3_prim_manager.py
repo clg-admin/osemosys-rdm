@@ -1481,12 +1481,23 @@ if __name__ == '__main__':
                             # Creating the data list for drivers:
                             if fut == 0:
                                 for dc in d_data_local_cols:
-                                    dict_large_table.update({dc: []})
+                                    # Avoid overwriting an outcome column that
+                                    # shares its name with a driver column:
+                                    if dc not in o_data_local_cols:
+                                        dict_large_table.update({dc: []})
 
                             # Storing the data values of drivers:
                             for a_driver in list(d_data.keys()):
                                 
                                 for dc in d_data_lc_dict[a_driver]:
+                                    # Avoid double-counting when an outcome
+                                    # column is reused as a driver column with
+                                    # the same name (e.g. outcome-as-driver
+                                    # via o_id_as_d in the PRIM structure).
+                                    # Outcome values were already appended
+                                    # in the outcome loop above.
+                                    if dc in o_data_local_cols:
+                                        continue
                                     
                                     if inconsistency_exists_glob is False:
                                         dict_large_table[dc] += \

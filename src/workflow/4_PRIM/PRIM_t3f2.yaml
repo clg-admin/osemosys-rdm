@@ -176,4 +176,10 @@ BAU: 'Scenario1'
 #----------------------------------------------------------------------------#
 max_per_batch: 1
 #----------------------------------------------------------------------------#
+
+# Which direction is desirable for each outcome
+outcome_directions:
+  Total System Cost: low
+  Hydro Generation: high
+  Electricity Demand: low
 ########################################################################################
