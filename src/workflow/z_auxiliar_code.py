@@ -4408,13 +4408,20 @@ def data_processor_new(output_file, model_structure, strategy, fut_id, solver, p
     elif output_file_type == 'parquet':    
         # Ensure consistent column types
         for col in df_output_sol.columns:
-            if df_output_sol[col].dtype == "object":  # Check for object (potential mixed types)
+            dtype_str = str(df_output_sol[col].dtype)
+            is_stringy = pd.api.types.is_string_dtype(df_output_sol[col].dtype)
+            if is_stringy:
                 try:
-                    # Attempt to convert to numeric
-                    df_output_sol[col] = pd.to_numeric(df_output_sol[col])
-                except ValueError:
-                    # If conversion fails, leave as string
-                    # print(f"Column '{col}' contains non-numeric values. Converting to string.")
+                    numeric_col = pd.to_numeric(df_output_sol[col], errors='coerce')
+                except Exception:
+                    df_output_sol[col] = df_output_sol[col].astype(str)
+                    continue
+                if numeric_col.notna().any():
+                    if col == 'YEAR':
+                        df_output_sol[col] = numeric_col.fillna(0).astype(int)
+                    else:
+                        df_output_sol[col] = numeric_col
+                else:
                     df_output_sol[col] = df_output_sol[col].astype(str)
         
         # Change the output name for the Parquet file
