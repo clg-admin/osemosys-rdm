@@ -79,11 +79,9 @@ If you are using a different OSeMOSYS formulation (or substantially different na
 
 - **Python 3.10+**
 - **Conda/Miniconda** (environment management)
-- At least one solver installed and available on PATH:
-  - [GLPK](https://www.gnu.org/software/glpk/) (free)
-  - [CBC](https://github.com/coin-or/Cbc) (free)
-  - [CPLEX](https://www.ibm.com/products/ilog-cplex-optimization-studio) (commercial)
-  - [Gurobi](https://www.gurobi.com/) (commercial)
+- Solvers:
+  - [GLPK](https://www.gnu.org/software/glpk/) (free) and [CBC](https://github.com/coin-or/Cbc) (free) are **installed automatically** into the conda environment (`glpk` + `coincbc` from conda-forge). No manual setup needed.
+  - [CPLEX](https://www.ibm.com/products/ilog-cplex-optimization-studio) (commercial) and [Gurobi](https://www.gurobi.com/) (commercial) are optional; if you select one of these, install it separately and make sure it is available on PATH.
 
 ### Optional
 
@@ -112,7 +110,7 @@ conda env create -f environment.yaml
 conda activate <ENV_NAME_FROM_environment.yaml>
 ```
 
-> Make sure your chosen solver (GLPK/CBC/CPLEX/Gurobi) is installed and available from the command line.
+> GLPK and CBC are installed automatically with the conda environment. If you choose CPLEX or Gurobi, make sure that solver is installed and available from the command line.
 
 ---
 

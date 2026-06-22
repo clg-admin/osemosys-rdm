@@ -23,3 +23,7 @@ dvc>=3.0.0
 
 # Configuration files
 pyyaml>=6.0.0
+
+# NOTE: the GLPK and CBC solvers are NOT pip packages. They are installed via
+# conda (glpk + coincbc from conda-forge) by environment.yaml / run.py.
+# If you install from this file with pip, install the solvers separately.

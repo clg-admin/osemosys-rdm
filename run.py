@@ -55,6 +55,14 @@ PIP_DEPS = {
     "pyDOE": "pyDOE>=0.3.8",
 }
 
+# Solvers are CLI executables (not importable Python modules), so they are
+# checked by probing the command on the environment PATH rather than by import.
+CONDA_SOLVERS = {
+    # cli_executable: conda_package
+    "glpsol": "glpk",      # always required: builds the .lp / preprocessing
+    "cbc": "coincbc",      # default free solver for the actual solve
+}
+
 # Additional dependencies for PRIM module
 PRIM_DEPS = {
     # python_module: pip_package
@@ -173,6 +181,27 @@ def module_present(env_name: str, module: str) -> bool:
     except subprocess.CalledProcessError:
         return False
 
+def executable_present(env_name: str, exe: str) -> bool:
+    """Check if a CLI executable is available on the environment's PATH.
+
+    Uses shutil.which inside `conda run` so the check reflects the activated
+    environment PATH (where conda-forge places solver binaries, e.g.
+    Library/bin on Windows). Avoids invoking solvers directly, since some
+    (like cbc) drop into an interactive prompt when called without a model.
+    """
+    code = f"import shutil, sys; sys.exit(0 if shutil.which('{exe}') else 1)"
+    try:
+        subprocess.check_call(
+            f'conda run -n {env_name} python -c "{code}"',
+            shell=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            env={**os.environ, 'PYTHONHASHSEED': '0'}
+        )
+        return True
+    except subprocess.CalledProcessError:
+        return False
+
 def ensure_deps(env_name: str, include_prim: bool = False) -> None:
     """
     Verify and install missing dependencies in the environment.
@@ -201,6 +230,16 @@ def ensure_deps(env_name: str, include_prim: bool = False) -> None:
         print("✓ Conda packages installed.")
     else:
         print("✓ All conda packages are present.")
+
+    # Install missing solver binaries (CLI executables, checked on PATH)
+    missing_solvers = [pkg for exe, pkg in CONDA_SOLVERS.items() if not executable_present(env_name, exe)]
+    if missing_solvers:
+        pkgs = " ".join(missing_solvers)
+        print(f"📦 Installing missing solvers: {', '.join(missing_solvers)}")
+        run(f"conda install -n {env_name} -c conda-forge -y {pkgs}")
+        print("✓ Solvers installed.")
+    else:
+        print("✓ All solvers are present.")
 
     # Install missing pip packages
     missing_pip = [pkg for mod, pkg in pip_deps.items() if not module_present(env_name, mod)]

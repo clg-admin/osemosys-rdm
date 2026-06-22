@@ -24,6 +24,10 @@ dependencies:
   # Statistical analysis for RDM
   - scikit-learn
 
+  # Solvers
+  - glpk        # provides the glpsol CLI (always required: builds the .lp / preprocessing)
+  - coincbc     # provides the cbc CLI
+
   # Pip dependencies
   - pip
   - pip:
