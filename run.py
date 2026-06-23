@@ -4,9 +4,9 @@
 DVC Pipeline Runner for AFR_RDM with Conda environment management.
 
 Usage:
-    python run.py rdm          # Execute RDM pipeline (base_future → rdm_experiment → postprocess)
-    python run.py prim         # Execute PRIM analysis (requires Results/ from RDM)
-    python run.py all          # Execute both RDM and PRIM sequentially
+    python run.py exp          # Execute RDM pipeline (base_future → rdm_experiment → postprocess)
+    python run.py prim         # Execute PRIM analysis (requires Results/ from exp)
+    python run.py rdm          # Execute both RDM and PRIM sequentially
 
 Features:
 - Creates/verifies Conda environment from environment.yaml
@@ -424,7 +424,7 @@ def run_prim_pipeline(env_name: str, skip_pull: bool) -> None:
     if not verify_rdm_results():
         print("\n❌ Error: RDM results not found in src/Results/")
         print("   PRIM requires the output from RDM pipeline.")
-        print("   Please run 'python run.py rdm' first.")
+        print("   Please run 'python run.py exp' first.")
         sys.exit(1)
 
     print("\n✓ RDM results found in src/Results/")
@@ -456,17 +456,17 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python run.py rdm          Execute RDM pipeline only
+  python run.py exp          Execute RDM pipeline only
   python run.py prim         Execute PRIM analysis only (requires RDM results)
-  python run.py all          Execute both RDM and PRIM sequentially
+  python run.py rdm          Execute both RDM and PRIM sequentially
         """
     )
 
     # Positional argument for module selection
     parser.add_argument(
         "module",
-        choices=["rdm", "prim", "all"],
-        help="Module to execute: 'rdm' (RDM pipeline), 'prim' (PRIM analysis), 'all' (both)"
+        choices=["exp", "prim", "rdm"],
+        help="Module to execute: 'exp' (RDM pipeline), 'prim' (PRIM analysis), 'rdm' (both)"
     )
 
     # Optional arguments
@@ -492,7 +492,7 @@ Examples:
     env_file = args.env_file
 
     # Determine if PRIM dependencies are needed
-    include_prim = args.module in ["prim", "all"]
+    include_prim = args.module in ["prim", "rdm"]
 
     # Header
     print("=" * 70)
@@ -526,13 +526,13 @@ Examples:
         # 5) Execute selected pipeline(s)
         overall_start = dt.datetime.now()
 
-        if args.module == "rdm":
+        if args.module == "exp":
             run_rdm_pipeline(env_name, args.skip_pull)
 
         elif args.module == "prim":
             run_prim_pipeline(env_name, args.skip_pull)
 
-        elif args.module == "all":
+        elif args.module == "rdm":
             run_rdm_pipeline(env_name, args.skip_pull)
             run_prim_pipeline(env_name, args.skip_pull)
 
