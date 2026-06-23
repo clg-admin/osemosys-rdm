@@ -2985,7 +2985,7 @@ def generate_df_per_param(scenario_code_name, data_per_param, num_time_slices_SD
                 for j in range(len(techs_separadas)):
                     for k in range(0,1):
                         for l in range(len(mode_separado)):
-                            matriz_escribir.append(['TechnologyToStorage',scenario_code_name,reg_separadas[j],techs_separadas[j],'','',mode_separado[j],'','','','','',storage[l],'','','',series_tiempo_separado[(1*j)+k][l]])
+                            matriz_escribir.append(['TechnologyToStorage',scenario_code_name,reg_separadas[j],techs_separadas[j],'','',mode_separado[l],'','','','','',storage[j],'','','',series_tiempo_separado[(1*j)+k][l]])
                     
                 # Store data
                 if matriz_escribir != list():
@@ -3033,7 +3033,7 @@ def generate_df_per_param(scenario_code_name, data_per_param, num_time_slices_SD
                 for j in range(len(techs_separadas)):
                     for k in range(0,1):
                         for l in range(len(mode_separado)):
-                            matriz_escribir.append(['TechnologyFromStorage',scenario_code_name,reg_separadas[j],techs_separadas[j],'','',mode_separado[j],'','','','','',storage[l],'','','',series_tiempo_separado[(1*j)+k][l]])
+                            matriz_escribir.append(['TechnologyFromStorage',scenario_code_name,reg_separadas[j],techs_separadas[j],'','',mode_separado[l],'','','','','',storage[j],'','','',series_tiempo_separado[(1*j)+k][l]])
                     
                 # Store data
                 if matriz_escribir != list():
