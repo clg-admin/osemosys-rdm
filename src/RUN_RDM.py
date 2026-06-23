@@ -190,7 +190,7 @@ if run_base_future == 'Yes':
         AUX.run_osemosys(solver,
                           './workflow/1_Experiment/Executables/'+list_scenarios[i].replace('.txt','_0/'),
                           './workflow/1_Experiment/Executables/'+list_scenarios[i].replace('.txt','_0/')+list_scenarios[i].replace('.txt','_0.txt'),
-                          './workflow/' + osemosys_model,
+                          './workflow/5_OSeMOSYS_models/' + osemosys_model,
                           './workflow/1_Experiment/Executables/'+list_scenarios[i].replace('.txt','_0/')+list_scenarios[i].replace('.txt',''),
                           threads_cplex_gurobi,
                           time_cbc)
