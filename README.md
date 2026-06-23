@@ -97,7 +97,7 @@ If you are using a different OSeMOSYS formulation (or substantially different na
 Running the pipeline will create/validate the conda environment and execute the DVC stages:
 
 ```bash
-python run.py rdm
+python run.py exp
 ```
 
 ### Option 2 — Manual setup
@@ -141,13 +141,13 @@ Typical configuration happens in:
 
 ```bash
 # Execute RDM pipeline (base future + experiment + postprocessing)
-python run.py rdm
+python run.py exp
 
 # Execute PRIM analysis only (requires RDM outputs)
 python run.py prim
 
 # Execute both sequentially
-python run.py all
+python run.py rdm
 ```
 
 #### Command options
@@ -156,9 +156,9 @@ python run.py all
 python run.py <module> [options]
 
 Modules:
-  rdm           Execute RDM pipeline only
+  exp           Execute RDM pipeline only
   prim          Execute PRIM analysis only (requires RDM results)
-  all           Execute both RDM and PRIM sequentially
+  rdm           Execute both RDM and PRIM sequentially
 
 Options:
   --force       Force re-execution of all stages (ignore cache)
@@ -394,7 +394,7 @@ osemosys-rdm/
 If you want to understand/extend the code, these are the key entry points:
 
 - `run.py`
-  - orchestrates the DVC pipeline modules (`rdm`, `prim`, `all`)
+  - orchestrates the DVC pipeline modules (`exp`, `prim`, `rdm`)
 
 - `dvc.yaml` + `scripts/`
   - define pipeline stages and wrap their execution
@@ -438,7 +438,7 @@ This means the workflow can support formulations with features such as:
 
 At a high level:
 
-- **RDM pipeline** (`python run.py rdm`)
+- **RDM pipeline** (`python run.py exp`)
   - `base_future` → `rdm_experiment` → `postprocess`
 
 - **PRIM pipeline** (`python run.py prim`)
@@ -453,7 +453,7 @@ DVC provides:
 To force a full rerun:
 
 ```bash
-python run.py rdm --force
+python run.py exp --force
 ```
 
 <details>
@@ -462,7 +462,7 @@ python run.py rdm --force
 ```text
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                              RDM PIPELINE                                    │
-│                           python run.py rdm                                  │
+│                           python run.py exp                                  │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │  ┌──────────────┐     ┌──────────────────┐     ┌─────────────────┐         │

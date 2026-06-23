@@ -226,7 +226,7 @@ Initial_Year_of_Uncertainty: 2025
 ### Quick Start
 
 ```bash
-python run.py rdm
+python run.py exp
 ```
 
 ### Monitoring Progress

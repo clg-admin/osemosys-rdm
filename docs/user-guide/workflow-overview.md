@@ -157,14 +157,14 @@ Executes the Patient Rule Induction Method for scenario discovery.
 
 ```bash
 # Run everything
-python run.py all
+python run.py rdm
 ```
 
 ### Selective Execution
 
 ```bash
 # RDM only (stages 1-3)
-python run.py rdm
+python run.py exp
 
 # PRIM only (stages 4-5, requires RDM results)
 python run.py prim

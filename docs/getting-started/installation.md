@@ -33,7 +33,7 @@ git clone https://github.com/clg-admin/osemosys-rdm.git
 cd osemosys-rdm
 
 # Run the pipeline (this will automatically set up the environment)
-python run.py rdm
+python run.py exp
 ```
 
 The automated setup will:
@@ -117,7 +117,7 @@ glpsol --version
 dvc --version
 
 # Run a quick test
-python run.py rdm --help
+python run.py exp --help
 ```
 
 ## Troubleshooting

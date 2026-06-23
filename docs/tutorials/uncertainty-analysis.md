@@ -142,7 +142,7 @@ Start with 50 futures to test your configuration, then increase to 100-500 for f
 ### Execute
 
 ```bash
-python run.py rdm
+python run.py exp
 ```
 
 ### Monitor Progress
