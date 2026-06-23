@@ -895,7 +895,8 @@ if __name__ == '__main__':
             add_str = '4. Selecting the data to create tables'
             print(add_str)
             pmrep.write(add_str + '\n')
-            use_pfd = comp_pfd[exp_ID]['Scenario1']
+            available_scenarios = list(comp_pfd[exp_ID].keys())
+            use_pfd = comp_pfd[exp_ID][available_scenarios[0]]
             future_list = list(use_pfd.keys())
             future_list.sort()
 
@@ -1480,12 +1481,23 @@ if __name__ == '__main__':
                             # Creating the data list for drivers:
                             if fut == 0:
                                 for dc in d_data_local_cols:
-                                    dict_large_table.update({dc: []})
+                                    # Avoid overwriting an outcome column that
+                                    # shares its name with a driver column:
+                                    if dc not in o_data_local_cols:
+                                        dict_large_table.update({dc: []})
 
                             # Storing the data values of drivers:
                             for a_driver in list(d_data.keys()):
                                 
                                 for dc in d_data_lc_dict[a_driver]:
+                                    # Avoid double-counting when an outcome
+                                    # column is reused as a driver column with
+                                    # the same name (e.g. outcome-as-driver
+                                    # via o_id_as_d in the PRIM structure).
+                                    # Outcome values were already appended
+                                    # in the outcome loop above.
+                                    if dc in o_data_local_cols:
+                                        continue
                                     
                                     if inconsistency_exists_glob is False:
                                         dict_large_table[dc] += \
@@ -1643,7 +1655,7 @@ if __name__ == '__main__':
                     o_d_col_fam_dict = subtbl_col_cntrl[b][o]['o_d_cfd']
                     o_d_col_fam_dict_names = subtbl_col_cntrl[b][o]['o_d_cfdn']
 
-                    per_list = period_list
+                    per_list = list(subtbl[b][o].keys())
                     for py in range(len(per_list)):
                         per_name = per_list[py]
                         for fam in range(len(o_d_col_fam_list)):
@@ -1661,6 +1673,7 @@ if __name__ == '__main__':
 
                             this_df_raw = subtbl[b][o][per_name][this_fam_key]
                             this_df_raw = this_df_raw.fillna(0)
+                            this_df_raw = this_df_raw.loc[:, ~this_df_raw.columns.duplicated()]
 
                             # Filter the normalized dataframe:
                             unique_strats = list(set(this_df_raw['Strat_ID']))

@@ -11,6 +11,7 @@ Objective: work the "sd" file to find the adequate ranges of drivers
 
 import pandas as pd
 import sys
+import yaml
 from copy import deepcopy
 import xlsxwriter
 
@@ -85,18 +86,11 @@ prim_structure['Driver']
 # that tells the PRIM story
 
 # Define the separation between desirable and risk outcomes:
-desirable_outcomes = {\
-    'Costs':'low',
-    'Emissions':'low',
-    'CAPEX':'low',
-    'Bus Price':'low',
-    'Electricity price':'low'}
-risk_outcomes = {\
-    'Costs':'high',
-    'Emissions':'high',
-    'CAPEX':'high',
-    'Bus Price':'high',
-    'Electricity price':'high'}
+with open('../PRIM_t3f2.yaml', 'r') as f:
+    prim_cfg = yaml.safe_load(f)
+desirable_outcomes = prim_cfg['outcome_directions']
+risk_outcomes = {k: ('high' if v == 'low' else 'low')
+                 for k, v in desirable_outcomes.items()}
 
 # create dictionaries apt for periods (2 for this analysis):
 desi_u_data = {}

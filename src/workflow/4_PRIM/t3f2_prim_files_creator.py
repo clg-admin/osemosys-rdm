@@ -130,7 +130,10 @@ def f1_create_prim_files(dir_elements, dirl, scen, dict_pfcp, analysis_list,
         ext = afile_path.suffix.lower()
     
         if ext == '.csv':
-            a_df = pd.read_csv(afile_path, dtype=use_dtype_inp,low_memory=False)
+            with open(afile_path, 'r') as fh:
+                head = fh.readline()
+            sep = ';' if head.count(';') > head.count(',') else ','
+            a_df = pd.read_csv(afile_path, dtype=use_dtype_inp, sep=sep, low_memory=False)
         elif ext == '.parquet':
             a_df = pd.read_parquet(afile_path)
         else:
@@ -166,7 +169,10 @@ def f1_create_prim_files(dir_elements, dirl, scen, dict_pfcp, analysis_list,
             ext = file_path.suffix.lower()
         
             if ext == '.csv':
-                df = pd.read_csv(file_path, dtype=use_dtype_out)
+                with open(file_path, 'r') as fh:
+                    head = fh.readline()
+                sep = ';' if head.count(';') > head.count(',') else ','
+                df = pd.read_csv(file_path, dtype=use_dtype_out, sep=sep)
             elif ext == '.parquet':
                 df = pd.read_parquet(file_path)
             else:
