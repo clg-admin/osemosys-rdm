@@ -431,8 +431,14 @@ def main(data_infile, data_outfile):
             dict_all, tech_list, "set MODEperTECHNOLOGY[", "*"
         )
 
-        line = "set INPUTxFUEL:=" + ", ".join(input_fuel_list)
-        file_out.write(line + ";\n")
+        # Only emit INPUTxFUEL when there is data. The per-element INPUTx* sets
+        # above are already skipped when input_fuel_list is empty; this set was
+        # the only one written unconditionally. Model variants that do not
+        # declare INPUTxFUEL (e.g. model.v.5.0) otherwise fail to build with
+        # "INPUTxFUEL not a set" on an empty `set INPUTxFUEL:=;`.
+        if input_fuel_list:
+            line = "set INPUTxFUEL:=" + ", ".join(input_fuel_list)
+            file_out.write(line + ";\n")
 
         file_out.write("end;")
 

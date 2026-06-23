@@ -949,7 +949,7 @@ def function_C_mathprog_parallel( fut_index, scen, inherited_scenarios, unpackag
                                 second_last_set_element_unique.append( second_last_set_element[u] )
                         
                         #
-                        if this_param == 'TechnologyToStorage' or this_param == 'TechnologyFromStorage':
+                        if False:  # FIX: storage link params (Technology To/From Storage) now use the generic 4-key logic below; the old swap mis-mapped mode<->storage indices and produced duplicate mode columns
                             last_set_element = this_scenario_data[ this_param ][ this_param_keys[-2] ]
                             last_set_element_unique = []
                             second_last_set_element = this_scenario_data[ this_param ][ this_param_keys[-1] ]
@@ -964,7 +964,7 @@ def function_C_mathprog_parallel( fut_index, scen, inherited_scenarios, unpackag
                                     
                                     
                         for y in range( len( last_set_element_unique ) ):
-                            if this_param == 'TechnologyToStorage' or this_param == 'TechnologyFromStorage':
+                            if False:  # FIX: write the mode column headers via the generic else-branch
                                 g.write( str( second_last_set_element_unique[count_storage]  ) + ' ')
                             else:
                                 g.write( str( last_set_element_unique[y] ) + ' ')
@@ -973,7 +973,7 @@ def function_C_mathprog_parallel( fut_index, scen, inherited_scenarios, unpackag
                         else:
                             g.write( str( last_set_element_unique[y] ) + ' ')
                         
-                        if this_param == 'TechnologyToStorage' or this_param == 'TechnologyFromStorage':
+                        if False:  # FIX: iterate storages (generic else-branch) instead of the single tech
                             second_last_set_element_unique_iter = [this_set_element_unique_2[n2]]
                         else:
                             second_last_set_element_unique_iter = second_last_set_element_unique
@@ -986,7 +986,7 @@ def function_C_mathprog_parallel( fut_index, scen, inherited_scenarios, unpackag
                         
                         #
                         for s in range( len( second_last_set_element_unique_iter ) ):                                  
-                            if (this_param == 'TechnologyToStorage' or this_param == 'TechnologyFromStorage'):
+                            if False:  # FIX: storage link params now use the generic value-writing else-branch
                                 for p in range(len(second_last_set_element_unique_iter)):
                                     value_indices_s = [ i for i, x in enumerate( this_scenario_data[ this_param ][ this_param_keys[-2] ] ) if x == str( second_last_set_element_unique[s] ) ]
                                     value_indices_n1 = [ i for i, x in enumerate( this_scenario_data[ this_param ][ this_param_keys[0] ] ) if x == str( this_set_element_unique_1[n1] ) ]
