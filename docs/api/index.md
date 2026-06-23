@@ -145,7 +145,7 @@ Main pipeline orchestrator.
    
    Command line arguments:
    
-   - ``module``: 'rdm', 'prim', or 'all'
+   - ``module``: 'exp', 'prim', or 'rdm'
    - ``--force``: Force re-execution
    - ``--skip-pull``: Skip DVC pull
    - ``--env-name``: Custom environment name

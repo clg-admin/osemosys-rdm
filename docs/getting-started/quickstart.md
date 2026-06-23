@@ -57,13 +57,13 @@ In the `Setup` sheet, configure:
 
 ```bash
 # Run the complete RDM pipeline
-python run.py rdm
+python run.py exp
 
 # Run PRIM analysis (requires RDM results)
 python run.py prim
 
 # Run both sequentially
-python run.py all
+python run.py rdm
 ```
 
 ### Example: First Run
@@ -73,7 +73,7 @@ python run.py all
 cd osemosys-rdm
 
 # Run with default settings
-python run.py rdm
+python run.py exp
 ```
 
 You should see output similar to:

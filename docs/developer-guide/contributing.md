@@ -63,7 +63,7 @@ flake8 src/ scripts/
 black --check src/ scripts/
 
 # Run a quick integration test
-python run.py rdm --help
+python run.py exp --help
 ```
 
 ### 3. Commit Changes

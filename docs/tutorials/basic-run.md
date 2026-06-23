@@ -83,7 +83,7 @@ Save and close the Excel file before running the pipeline.
 
 ```bash
 cd osemosys-rdm
-python run.py rdm
+python run.py exp
 ```
 
 ### Expected Output
@@ -365,7 +365,7 @@ Timeslices_model: 1
 ### Run Command
 
 ```bash
-python run.py rdm
+python run.py exp
 ```
 
 ### Verify Success

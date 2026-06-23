@@ -40,7 +40,7 @@ Execute the model using the appropriate command. Type the command and **press En
 
 **Command explanation:**
 ```bash
-python run.py rdm
+python run.py exp
 ```
 
 - `python` tells the computer to use Python to run a program
@@ -49,7 +49,7 @@ python run.py rdm
 
 **Other available options:**
 - `python run.py prim` - Runs only the PRIM analysis (requires RDM results already available)
-- `python run.py all` - Runs both RDM and PRIM pipelines sequentially
+- `python run.py rdm` - Runs both RDM and PRIM pipelines sequentially
 
 ![Run Model](../_static/images/3_run_model.png)
 

@@ -99,7 +99,7 @@ def main():
     ensure_deps(env_name)
     
     # Execute pipeline
-    if args.module == "rdm":
+    if args.module == "exp":
         run_rdm_pipeline(env_name, args.force, args.skip_pull)
     elif args.module == "prim":
         run_prim_pipeline(env_name, args.force, args.skip_pull)

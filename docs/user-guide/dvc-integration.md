@@ -16,7 +16,7 @@ DVC provides:
 
 OSeMOSYS-RDM provides three main pipeline commands for easy execution:
 
-### `python run.py rdm`
+### `python run.py exp`
 Executes the complete RDM (Robust Decision Making) pipeline:
 - Base future generation (Future 0)
 - RDM experiment with uncertainty sampling
@@ -28,7 +28,7 @@ Executes only the PRIM (Patient Rule Induction Method) analysis:
 - Performs scenario discovery
 - Generates predominant parameter ranges
 
-### `python run.py all`
+### `python run.py rdm`
 Executes both pipelines sequentially:
 - First runs the complete RDM pipeline
 - Then runs the PRIM analysis
@@ -174,7 +174,7 @@ env/
 vim src/Interface_RDM.xlsx
 
 # 2. Run pipeline
-python run.py rdm
+python run.py exp
 
 # 3. Check what changed
 dvc status
@@ -202,7 +202,7 @@ cd osemosys-rdm
 dvc pull
 
 # 3. (Optional) Re-run pipeline to verify
-python run.py rdm
+python run.py exp
 ```
 
 ## Running Without Git
@@ -214,7 +214,7 @@ OSeMOSYS-RDM can run on machines without Git installed:
 # Navigate to directory
 
 # DVC will initialize in standalone mode
-python run.py rdm
+python run.py exp
 ```
 
 DVC will create `.dvc/` with `--no-scm` flag automatically.
