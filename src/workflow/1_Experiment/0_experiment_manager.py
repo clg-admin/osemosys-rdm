@@ -694,7 +694,7 @@ def main_executer(n1, Executed_Scenario, time_vector, scenario_list,solver,osemo
         data_file = case_address.replace('./','').replace('/','\\') + '\\' + str( this_case[0] )
         output_file = case_address.replace('./','').replace('/','\\') + '\\' + str( this_case[0] ).replace('.txt','') + '_Output'
         #
-        model_file = os.path.join(file_adress.replace('1_Experiment',''), osemosys_model)
+        model_file = os.path.join(file_adress.replace('1_Experiment',''), '5_OSeMOSYS_models', osemosys_model)
         
         if solver == 'glpk':
             str_solve = 'glpsol -m '+ str( model_file ) +' -d ' + str( data_file )  +  " -o " + str( output_file ) + '.txt'
