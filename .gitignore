@@ -20,11 +20,11 @@ src/workflow/1_Experiment/OSEMOSYS_UGA_Energy_Input.csv
 src/workflow/1_Experiment/OSEMOSYS_UGA_Energy_Output.csv
 
 # From Executables (DVC manages this directory)
-src/workflow/1_Experiment/Executables/*
+# src/workflow/1_Experiment/Executables/*
 !src/workflow/1_Experiment/Executables/.gitkeep
 
 # From Experimental_Platform (DVC manages this directory)
-src/workflow/1_Experiment/Experimental_Platform/*
+# src/workflow/1_Experiment/Experimental_Platform/*
 !src/workflow/1_Experiment/Experimental_Platform/.gitkeep
 
 # From PRIM Output (DVC manages this directory)
