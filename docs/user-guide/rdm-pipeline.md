@@ -102,7 +102,7 @@ Results are consolidated into unified datasets across two stages:
 - **`postprocess` stage:** generates `OSEMOSYS_{Region}_Energy_Output.csv`
 
 ```
-src/Results/
+Results/
 ├── OSEMOSYS_{Region}_Energy_Input.csv   # Generated in rdm_experiment
 ├── OSEMOSYS_{Region}_Energy_Output.csv  # Generated in postprocess
 └── *.parquet                            # Efficient intermediate storage
@@ -349,7 +349,7 @@ Experimental_Platform/Futures/Scenario1/Scenario1_1/
 
 After pipeline completion:
 ```
-src/Results/
+Results/
 ├── OSEMOSYS_{Region}_Energy_Input.csv    (from rdm_experiment stage)
 │   └── Columns: Strategy, Future.ID, YEAR, Parameter, Value, ...
 ├── OSEMOSYS_{Region}_Energy_Output.csv   (from postprocess stage)

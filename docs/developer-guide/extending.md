@@ -262,7 +262,7 @@ stages:
   my_stage:
     cmd: python scripts/run_my_stage.py
     deps:
-      - src/Results/
+      - Results/
       - scripts/run_my_stage.py
     outs:
       - src/MyOutput/
@@ -324,7 +324,7 @@ def create_technology_comparison(df, output_dir):
     plt.close()
 
 def main():
-    results_dir = Path('src/Results')
+    results_dir = Path('Results')
     output_dir = Path('src/Visualizations')
     output_dir.mkdir(exist_ok=True)
     

@@ -81,7 +81,7 @@ In this example, the process completes very quickly because the last model execu
 
 ## Understanding the Output
 
-After the process completes successfully, your results will be available in the `src/Results/` directory. You can find:
+After the process completes successfully, your results will be available in the `Results/` directory. You can find:
 
 - CSV files with consolidated outputs
 - Parquet files for efficient data storage

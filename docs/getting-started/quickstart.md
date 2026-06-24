@@ -115,7 +115,7 @@ Stages: base_future → rdm_experiment → postprocess
 After execution, results are available in:
 
 ```
-src/Results/
+Results/
 ```
 
 ### Output Files

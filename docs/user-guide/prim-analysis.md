@@ -34,7 +34,7 @@ This comprehensive guide explains how to properly configure all PRIM Excel files
 ### Quick Start
 
 ```bash
-# Requires RDM results in src/Results/
+# Requires RDM results in Results/
 python run.py prim
 ```
 
@@ -43,7 +43,7 @@ python run.py prim
 Before running PRIM:
 
 1. ✅ RDM pipeline completed successfully
-2. ✅ Results available in `src/Results/` and `src/workflow/1_Experiment/`
+2. ✅ Results available in `Results/` and `src/workflow/1_Experiment/`
 3. ✅ PRIM configuration files set up (see configuration guide above)
 
 ### What Happens

@@ -39,7 +39,7 @@ It can also support OSeMOSYS-based models that represent additional domains (e.g
   - **GLPK** is required (used for preprocessing). Additionally supports **CBC**, **CPLEX**, and **Gurobi** for solving.
 
 - **End-to-end automation**
-  - preprocessing → solve → postprocessing → consolidated datasets in `src/Results/`
+  - preprocessing → solve → postprocessing → consolidated datasets in `Results/`
 
 - **Automatic data preprocessing**
   - pre-processes MUIO/OSeMOSYS data files to add commodity-technology-mode sets and calculate `CapitalRecoveryFactor` / `PvAnnuity`, reducing matrix generation time
@@ -187,7 +187,7 @@ At a high level, OSeMOSYS-RDM does:
 Results are aggregated to:
 
 ```text
-src/Results/
+Results/
 ```
 
 Typical output artifacts include:

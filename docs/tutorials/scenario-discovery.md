@@ -5,7 +5,7 @@ This tutorial shows you how to use PRIM (Patient Rule Induction Method) to disco
 ## Prerequisites
 
 - Completed the [Uncertainty Analysis Tutorial](uncertainty-analysis.md)
-- RDM results available in `src/Results/`
+- RDM results available in `Results/`
 - At least 50 futures for meaningful analysis
 
 ## What is Scenario Discovery?
@@ -118,7 +118,7 @@ python run.py prim
 Stages: prim_files_creator → prim_analysis
 ======================================================================
 
-✓ RDM results found in src/Results/
+✓ RDM results found in Results/
 
 🔄 Executing PRIM Pipeline...
 ----------------------------------------------------------------------
@@ -341,7 +341,7 @@ print(f"High-cost scenarios: {len(high_cost)} ({100*len(high_cost)/len(analysis_
 
 Ensure RDM results exist:
 ```bash
-ls src/Results/*.csv
+ls Results/*.csv
 ```
 
 ### "Analysis returns empty boxes"

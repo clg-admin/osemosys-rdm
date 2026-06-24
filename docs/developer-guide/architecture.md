@@ -152,7 +152,7 @@ def main():
     for fut_index in range(len(all_futures)):
         function_C_mathprog_parallel(...)
 
-    # Generate consolidated Energy_Input.csv in src/Results/
+    # Generate consolidated Energy_Input.csv in Results/
     local_dataset_creator_0.execute_local_dataset_creator_0_inputs(...)
     local_dataset_creator_f.execute_local_dataset_creator_f_inputs(...)
 ```
