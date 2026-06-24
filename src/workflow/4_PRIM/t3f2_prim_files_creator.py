@@ -1587,8 +1587,19 @@ if __name__ == '__main__':
             base_dir = os.path.dirname(os.path.abspath(__file__))
                 
             # dir_this_exp = dir_exps + '/' + experiment_list[e]
-            dir_this_exp = os.path.join(base_dir, '..', experiment_list[e])
-            dir_this_exp = os.path.abspath(dir_this_exp)
+            # If a dedicated PRIM input root is configured (to isolate the data
+            # of one model from EXP runs of another), read the experiment
+            # platform from there; otherwise use the live 1_Experiment platform.
+            prim_input_root = params.get('prim_input_root')
+            if prim_input_root:
+                if os.path.isabs(prim_input_root):
+                    dir_this_exp = os.path.abspath(prim_input_root)
+                else:
+                    dir_this_exp = os.path.abspath(
+                        os.path.join(base_dir, prim_input_root))
+            else:
+                dir_this_exp = os.path.join(base_dir, '..', experiment_list[e])
+                dir_this_exp = os.path.abspath(dir_this_exp)
             # maybe update directory names later
             dir_fut0 = os.path.join(dir_this_exp, params['Executables'])
             dir_futs = os.path.join(dir_this_exp, params['Experi_Plat'], params['Futures'])

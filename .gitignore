@@ -1,7 +1,8 @@
 # Results folder (DVC manages this directory)
 Results/
-src/Results/*
-!src/Results/.gitkeep
+
+# PRIM input snapshot (DVC manages this directory)
+PRIM_Input/
 
 # Dashboard test (excluded due to large file sizes)
 Dashboard.twbx

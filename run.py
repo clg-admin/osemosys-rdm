@@ -353,13 +353,20 @@ def dvc_command(env_name: str, args: str) -> None:
     run(f"conda run -n {env_name} dvc {args}")
 
 # ---------- Pipeline Verification ----------
-def verify_rdm_results() -> bool:
-    """Check if RDM results exist (required for PRIM)."""
-    results_dir = Path("src/Results")
-    if not results_dir.exists():
+def verify_prim_input() -> bool:
+    """Check if the PRIM input exists (required for PRIM).
+
+    PRIM does not read the consolidated CSVs in Results/; it consumes the
+    per-future experiment platform. Because EXP runs a different model, PRIM's
+    platform is kept in PRIM_Input/, imported from its source branch via
+    scripts/import_prim_input.py.
+    """
+    base = Path("PRIM_Input")
+    executables = base / "Executables"
+    futures = base / "Experimental_Platform" / "Futures"
+    if not (executables.is_dir() and futures.is_dir()):
         return False
-    csv_files = list(results_dir.glob("*.csv"))
-    return len(csv_files) >= 1  # At least Input CSV from rdm_experiment
+    return any(executables.iterdir()) and any(futures.iterdir())
 
 # ---------- Duration Formatting ----------
 def format_duration(start_time: dt.datetime, end_time: dt.datetime) -> str:
@@ -420,14 +427,14 @@ def run_prim_pipeline(env_name: str, skip_pull: bool) -> None:
     print("Stages: prim_files_creator → prim_analysis")
     print("=" * 70)
 
-    # Verify RDM results exist
-    if not verify_rdm_results():
-        print("\n❌ Error: RDM results not found in src/Results/")
-        print("   PRIM requires the output from RDM pipeline.")
-        print("   Please run 'python run.py exp' first.")
+    # Verify PRIM input snapshot exists
+    if not verify_prim_input():
+        print("\n❌ Error: PRIM input not found in PRIM_Input/")
+        print("   PRIM consumes the experiment platform, not Results/.")
+        print("   Populate it with 'python scripts/import_prim_input.py'.")
         sys.exit(1)
 
-    print("\n✓ RDM results found in src/Results/")
+    print("\n✓ PRIM input found in PRIM_Input/")
 
     # Pull from remote if configured
     if not skip_pull and has_dvc_remote(env_name):
