@@ -2,7 +2,7 @@
 Results/
 
 # PRIM input snapshot (DVC manages this directory)
-PRIM_Input/
+# PRIM_Input/
 
 # Dashboard test (excluded due to large file sizes)
 Dashboard.twbx
