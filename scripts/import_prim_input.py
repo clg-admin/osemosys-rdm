@@ -22,7 +22,7 @@ Requirements:
     DVC remote configured). Run this where that model's pipeline was executed,
     or after `dvc pull` if a remote is later configured.
 
-Author: AFR_RDM Team
+Author: OSeMOSYS-RDM Team
 """
 import argparse
 import json
@@ -79,7 +79,7 @@ def main():
 
     root = Path(__file__).resolve().parent.parent
     print("=" * 70)
-    print("AFR_RDM - Import PRIM Input")
+    print("OSeMOSYS-RDM - Import PRIM Input")
     print(f"  source revision: {args.rev}")
     print("=" * 70)
 

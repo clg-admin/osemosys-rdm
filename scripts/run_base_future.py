@@ -14,7 +14,7 @@ Manual execution:
 DVC integration:
     Called automatically by DVC when executing the 'base_future' stage.
 
-Author: AFR_RDM Team
+Author: OSeMOSYS-RDM Team
 """
 
 import os
@@ -132,7 +132,7 @@ def generate_metrics(executables_dir, metrics_file):
 def main():
     """Main execution function"""
     print("=" * 70)
-    print("AFR_RDM - Base Future Execution")
+    print("OSeMOSYS-RDM - Base Future Execution")
     print("=" * 70)
 
     # Paths

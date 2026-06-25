@@ -22,7 +22,7 @@ src/workflow/0_Scenarios/
 Your scenario file should be a valid GNU MathProg data file compatible with OSeMOSYS.
 
 ```{note}
-A reference formulation consistent with this workflow is included as `model.v.5.3.txt`.
+Reference formulations consistent with this workflow are included under `src/workflow/5_OSeMOSYS_models/` (e.g. `model.v.5.3.txt`).
 ```
 
 ## Step 2: Configure the Run
@@ -80,14 +80,14 @@ You should see output similar to:
 
 ```
 ======================================================================
-AFR_RDM Pipeline Runner
+OSeMOSYS-RDM Pipeline Runner
 ======================================================================
 Module: RDM
-Environment: AFR-RDM-env
+Environment: OSeMOSYS-RDM-env
 ======================================================================
 
 🔧 Step 1: Environment Setup
-✓ Conda environment 'AFR-RDM-env' already exists.
+✓ Conda environment 'OSeMOSYS-RDM-env' already exists.
 
 🔧 Step 2: Dependency Management
 ✓ All conda packages are present.

@@ -17,7 +17,7 @@ Manual execution:
 DVC integration:
     Called automatically by DVC when executing the 'postprocess' stage.
 
-Author: AFR_RDM Team
+Author: OSeMOSYS-RDM Team
 """
 
 import os
@@ -67,7 +67,7 @@ def generate_metrics(results_dir, metrics_file):
 def main():
     """Main execution function"""
     print("=" * 70)
-    print("AFR_RDM - Postprocessing (Results Aggregation)")
+    print("OSeMOSYS-RDM - Postprocessing (Results Aggregation)")
     print("=" * 70)
 
     # Paths

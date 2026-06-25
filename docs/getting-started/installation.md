@@ -38,7 +38,7 @@ python run.py exp
 
 The automated setup will:
 
-1. Create a Conda environment named `AFR-RDM-env`
+1. Create a Conda environment named `OSeMOSYS-RDM-env`
 2. Install all required dependencies (pandas, numpy, DVC, etc.)
 3. Initialize DVC if needed
 4. Execute the complete pipeline
@@ -54,7 +54,7 @@ cd osemosys-rdm
 
 # Create and activate the conda environment
 conda env create -f environment.yaml
-conda activate AFR-RDM-env
+conda activate OSeMOSYS-RDM-env
 
 # Alternatively, install with pip
 pip install -r requirements.txt
@@ -138,7 +138,7 @@ If you encounter environment problems:
 
 ```bash
 # Remove and recreate the environment
-conda env remove -n AFR-RDM-env
+conda env remove -n OSeMOSYS-RDM-env
 conda env create -f environment.yaml
 ```
 
@@ -148,7 +148,7 @@ If you get import errors for Python packages:
 
 ```bash
 # Reinstall dependencies
-conda activate AFR-RDM-env
+conda activate OSeMOSYS-RDM-env
 pip install -r requirements.txt
 ```
 

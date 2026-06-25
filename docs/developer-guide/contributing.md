@@ -28,7 +28,7 @@ git remote add upstream https://github.com/clg-admin/osemosys-rdm.git
 ```bash
 # Create development environment
 conda env create -f environment.yaml
-conda activate AFR-RDM-env
+conda activate OSeMOSYS-RDM-env
 
 # Install development dependencies
 pip install pytest black flake8 mypy

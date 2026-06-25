@@ -43,20 +43,27 @@ osemosys-rdm/
 ├── run.py                          # Main entry point
 ├── dvc.yaml                        # Pipeline definition
 ├── environment.yaml                # Conda environment
-├── model.v.5.3.txt                 # OSeMOSYS formulation (v5.3)
-├── model.v.5.4.txt                 # OSeMOSYS formulation (v5.4)
+├── requirements.txt                # Python dependencies (pip)
 │
 ├── scripts/                        # DVC wrapper scripts
 │   ├── run_base_future.py
 │   ├── run_rdm_experiment.py
 │   ├── run_postprocess.py
 │   ├── run_prim_files_creator.py
-│   └── run_prim_analysis.py
+│   ├── run_prim_analysis.py
+│   └── import_prim_input.py        # Imports the experiment platform into PRIM_Input/
+│
+├── tests/                          # Unit tests
+├── Results/                        # Output directory (aggregated CSV/Parquet)
+│
+├── PRIM_Input/                     # Isolated experiment platform consumed by PRIM
+│   ├── Executables/                # Base future (Future 0)
+│   └── Experimental_Platform/
+│       └── Futures/                # Per-future inputs/outputs
 │
 └── src/
     ├── Interface_RDM.xlsx          # Configuration
     ├── RUN_RDM.py                  # Legacy entry point
-    ├── Results/                    # Output directory
     │
     └── workflow/
         ├── z_auxiliar_code.py      # Core utilities
@@ -71,10 +78,14 @@ osemosys-rdm/
         │       └── Futures/        # RDM futures
         ├── 2_Miscellaneous/        # Reference files
         ├── 3_Postprocessing/       # Output processing
-        └── 4_PRIM/                 # PRIM module
-            ├── PRIM_t3f2.yaml
-            ├── t3f2_prim_files_creator.py
-            └── t3b_sdiscovery/     # Scenario discovery
+        ├── 4_PRIM/                 # PRIM module
+        │   ├── PRIM_t3f2.yaml
+        │   ├── t3f2_prim_files_creator.py
+        │   └── t3b_sdiscovery/     # Scenario discovery
+        └── 5_OSeMOSYS_models/      # Reference OSeMOSYS GNU MathProg models
+            ├── model.v.5.0.txt     # OSeMOSYS formulation (v5.0)
+            ├── model.v.5.3.txt     # OSeMOSYS formulation (v5.3)
+            └── model.v.5.4.txt     # OSeMOSYS formulation (v5.4)
 ```
 
 ## Core Components

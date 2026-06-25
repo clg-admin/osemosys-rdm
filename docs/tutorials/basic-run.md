@@ -90,14 +90,14 @@ python run.py exp
 
 ```
 ======================================================================
-AFR_RDM Pipeline Runner
+OSeMOSYS-RDM Pipeline Runner
 ======================================================================
 Module: RDM
-Environment: AFR-RDM-env
+Environment: OSeMOSYS-RDM-env
 ======================================================================
 
 🔧 Step 1: Environment Setup
-✓ Conda environment 'AFR-RDM-env' already exists.
+✓ Conda environment 'OSeMOSYS-RDM-env' already exists.
 
 🔧 Step 2: Dependency Management
 ✓ All conda packages are present.

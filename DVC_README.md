@@ -1,13 +1,13 @@
-# DVC Integration for AFR_RDM
+# DVC Integration for OSeMOSYS-RDM
 
-This document explains how to use the DVC (Data Version Control) pipeline automation for the AFR_RDM project.
+This document explains how to use the DVC (Data Version Control) pipeline automation for the OSeMOSYS-RDM project.
 
 ## Overview
 
 The DVC integration provides:
 - **Automated environment setup**: Creates and manages Conda environment
 - **Dependency management**: Automatically installs all required packages
-- **Pipeline automation**: Executes the complete AFR_RDM workflow
+- **Pipeline automation**: Executes the complete OSeMOSYS-RDM workflow
 - **Reproducibility**: Ensures consistent results across different machines
 - **Data versioning**: Tracks large data files without storing them in Git
 
@@ -22,7 +22,7 @@ The DVC integration provides:
 ### First Time Setup (DVC Automation)
 
 1. Open a terminal (Anaconda Prompt on Windows)
-2. Navigate to the AFR_RDM directory
+2. Navigate to the OSeMOSYS-RDM directory
 3. Run the pipeline:
 
 ```bash
@@ -30,7 +30,7 @@ python run.py
 ```
 
 This will automatically:
-- Create a Conda environment named `AFR-RDM-env`
+- Create a Conda environment named `OSeMOSYS-RDM-env`
 - Install all dependencies (pandas, numpy, DVC, etc.)
 - Initialize DVC if needed
 - Execute the complete pipeline
@@ -56,8 +56,9 @@ python scripts/run_rdm_experiment.py
 # Execute postprocessing
 python scripts/run_postprocess.py
 
-# Execute PRIM analysis
-python scripts/run_prim.py
+# Execute PRIM analysis (two stages)
+python scripts/run_prim_files_creator.py
+python scripts/run_prim_analysis.py
 ```
 
 **Note**: Manual execution requires:
@@ -119,27 +120,27 @@ The `dvc.yaml` file defines the following stages:
 
 ### Check pipeline status
 ```bash
-conda run -n AFR-RDM-env dvc status
+conda run -n OSeMOSYS-RDM-env dvc status
 ```
 
 ### View pipeline DAG
 ```bash
-conda run -n AFR-RDM-env dvc dag
+conda run -n OSeMOSYS-RDM-env dvc dag
 ```
 
 ### Execute specific stage
 ```bash
-conda run -n AFR-RDM-env dvc repro base_future
+conda run -n OSeMOSYS-RDM-env dvc repro base_future
 ```
 
 ### Pull data from remote
 ```bash
-conda run -n AFR-RDM-env dvc pull
+conda run -n OSeMOSYS-RDM-env dvc pull
 ```
 
 ### Push data to remote
 ```bash
-conda run -n AFR-RDM-env dvc push
+conda run -n OSeMOSYS-RDM-env dvc push
 ```
 
 ## Configuring Remote Storage
@@ -148,23 +149,23 @@ To share data with your team, configure a DVC remote:
 
 ### Local Directory
 ```bash
-conda run -n AFR-RDM-env dvc remote add -d myremote /path/to/storage
+conda run -n OSeMOSYS-RDM-env dvc remote add -d myremote /path/to/storage
 ```
 
 ### Google Drive
 ```bash
-conda run -n AFR-RDM-env dvc remote add -d gdrive gdrive://folder_id
-conda run -n AFR-RDM-env dvc remote modify gdrive gdrive_acknowledge_abuse true
+conda run -n OSeMOSYS-RDM-env dvc remote add -d gdrive gdrive://folder_id
+conda run -n OSeMOSYS-RDM-env dvc remote modify gdrive gdrive_acknowledge_abuse true
 ```
 
 ### Amazon S3
 ```bash
-conda run -n AFR-RDM-env dvc remote add -d s3remote s3://mybucket/path
+conda run -n OSeMOSYS-RDM-env dvc remote add -d s3remote s3://mybucket/path
 ```
 
 ### Azure Blob Storage
 ```bash
-conda run -n AFR-RDM-env dvc remote add -d azure azure://container/path
+conda run -n OSeMOSYS-RDM-env dvc remote add -d azure azure://container/path
 ```
 
 ## Parameters Tracking
@@ -178,14 +179,16 @@ Changes to these parameters will trigger re-execution of dependent stages.
 
 ## Metrics
 
-The pipeline generates metrics files:
-- `src/workflow/1_Experiment/Executables/metrics.json`: Base future metrics
-- `src/workflow/1_Experiment/Experimental_Platform/rdm_metrics.json`: RDM metrics
-- `src/workflow/4_PRIM/Output/prim_plots.json`: PRIM analysis metrics
+The pipeline generates metrics files (as tracked in `dvc.yaml`):
+- `src/workflow/1_Experiment/base_future_metrics.json`: Base future metrics
+- `src/workflow/1_Experiment/rdm_experiment_metrics.json`: RDM experiment metrics
+- `src/workflow/3_Postprocessing/postprocess_metrics.json`: Postprocessing metrics
+- `src/workflow/4_PRIM/prim_files_creator_metrics.json`: PRIM files-creator metrics
+- `src/workflow/4_PRIM/prim_analysis_metrics.json`: PRIM analysis metrics
 
 View metrics:
 ```bash
-conda run -n AFR-RDM-env dvc metrics show
+conda run -n OSeMOSYS-RDM-env dvc metrics show
 ```
 
 ## Troubleshooting
@@ -193,21 +196,21 @@ conda run -n AFR-RDM-env dvc metrics show
 ### Environment issues
 If you encounter environment problems, recreate it:
 ```bash
-conda env remove -n AFR-RDM-env
+conda env remove -n OSeMOSYS-RDM-env
 python run.py
 ```
 
 ### DVC not initialized
 If DVC is not initialized:
 ```bash
-conda run -n AFR-RDM-env dvc init
+conda run -n OSeMOSYS-RDM-env dvc init
 ```
 
 ### Missing dependencies
 The `run.py` script automatically checks and installs missing dependencies.
 If manual installation is needed:
 ```bash
-conda activate AFR-RDM-env
+conda activate OSeMOSYS-RDM-env
 pip install -r requirements.txt
 ```
 
@@ -220,16 +223,21 @@ Ensure your solver (GLPK/CBC/CPLEX/Gurobi) is:
 ## Files Structure
 
 ```
-AFR_RDM/
+osemosys-rdm/
 ├── run.py                  # Main runner script
 ├── dvc.yaml               # Pipeline definition
 ├── environment.yaml       # Conda environment specification
+├── requirements.txt       # Python dependencies (pip)
 ├── .dvcignore            # Files to ignore in DVC
 ├── .dvc/                 # DVC internal files (auto-generated)
-├── Interface_RDM.xlsx    # Main configuration file
+├── scripts/              # DVC wrapper scripts (pipeline stages)
+├── tests/                # Unit tests
+├── Results/              # Aggregated outputs (CSV/Parquet)
+├── PRIM_Input/           # Isolated experiment platform consumed by PRIM
 └── src/
-    ├── RUN_RDM.py        # Main execution script
-    └── workflow/         # Pipeline scripts
+    ├── Interface_RDM.xlsx  # Main configuration file
+    ├── RUN_RDM.py        # Legacy execution script
+    └── workflow/         # Pipeline scripts (incl. 5_OSeMOSYS_models/)
 ```
 
 ## Best Practices
@@ -332,23 +340,43 @@ python scripts/run_postprocess.py
 **Output:**
 - Aggregated CSV files in `Results/`
 
-#### 4. PRIM Analysis (`scripts/run_prim.py`)
-Performs scenario discovery analysis.
+#### 4. PRIM Files Creator (`scripts/run_prim_files_creator.py`)
+Builds PRIM-ready input files from the experiment platform.
 
 ```bash
-python scripts/run_prim.py
+python scripts/run_prim_files_creator.py
 ```
 
 **What it does:**
-- Executes `src/workflow/4_PRIM/PRIM_new.py`
-- Analyzes aggregated results using PRIM methodology
-- Generates rules and visualizations
-- Creates metrics in `src/workflow/4_PRIM/Output/prim_plots.json`
+- Reads the isolated experiment platform from `PRIM_Input/` (not `Results/`)
+- Executes `src/workflow/4_PRIM/t3f2_prim_files_creator.py`
+- Creates PRIM input files for scenario discovery
+- Creates metrics in `src/workflow/4_PRIM/prim_files_creator_metrics.json`
 
 **Output:**
-- PRIM analysis results in `src/workflow/4_PRIM/Output/`
-- Excel files with discovered rules
-- Visualization plots
+- PRIM input files in `src/workflow/4_PRIM/t3b_sdiscovery/experiment_data/`
+
+> **Note:** `PRIM_Input/` must be populated first — it holds a model that may
+> have been computed separately from the `exp` pipeline. Import it with
+> `python scripts/import_prim_input.py`.
+
+#### 5. PRIM Analysis (`scripts/run_prim_analysis.py`)
+Performs scenario discovery analysis.
+
+```bash
+python scripts/run_prim_analysis.py
+```
+
+**What it does:**
+- Executes the PRIM structure, manager, and range-finder scripts under
+  `src/workflow/4_PRIM/t3b_sdiscovery/`
+- Analyzes the experiment data using PRIM methodology
+- Identifies predominant parameter ranges
+- Creates metrics in `src/workflow/4_PRIM/prim_analysis_metrics.json`
+
+**Output:**
+- `src/workflow/4_PRIM/t3b_sdiscovery/sd_ana_1_exp_1_Experiment.csv`
+- `src/workflow/4_PRIM/t3b_sdiscovery/t3f4_predominant_ranges_a1_e1_Experiment.xlsx`
 
 ### Debugging Individual Stages
 
@@ -364,7 +392,8 @@ cat src/workflow/1_Experiment/Experimental_Platform/rdm_metrics.json
 cat Results/postprocess_metrics.json
 
 # PRIM metrics
-cat src/workflow/4_PRIM/Output/prim_plots.json
+cat src/workflow/4_PRIM/prim_files_creator_metrics.json
+cat src/workflow/4_PRIM/prim_analysis_metrics.json
 ```
 
 **Clean outputs before re-running:**
@@ -379,7 +408,7 @@ rm -rf src/workflow/1_Experiment/Experimental_Platform/Futures/
 rm -rf Results/*.csv
 
 # Clean PRIM outputs
-rm -rf src/workflow/4_PRIM/Output/*
+rm -rf src/workflow/4_PRIM/t3b_sdiscovery/experiment_data/*
 ```
 
 ### Comparison: Manual vs DVC Execution
@@ -418,5 +447,5 @@ You can mix both approaches:
 For issues or questions:
 1. Check this documentation
 2. Review DVC official docs: https://dvc.org/doc
-3. Check the main README.md for AFR_RDM-specific questions
+3. Check the main README.md for OSeMOSYS-RDM-specific questions
 4. For manual execution issues, verify dependencies: `pip list`

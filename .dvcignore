@@ -18,7 +18,7 @@ __pycache__/
 venv/
 env/
 ENV/
-AFR-RDM-env/
+OSeMOSYS-RDM-env/
 
 # IDE
 .vscode/

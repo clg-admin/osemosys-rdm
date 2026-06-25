@@ -60,7 +60,7 @@ It can also support OSeMOSYS-based models that represent additional domains (e.g
 This workflow is designed for the **GNU MathProg** implementation of OSeMOSYS (LP formulation), and has been tested with the formulations used in **MUIO v5.3** and **v5.4**.
 
 - MUIO v5.3 release notes (GitHub): https://github.com/OSeMOSYS/MUIO/releases/tag/v5.3
-- Reference formulations consistent with this workflow are included as `model.v.5.3.txt` and `model.v.5.4.txt`.
+- Reference formulations consistent with this workflow are included under `src/workflow/5_OSeMOSYS_models/` (`model.v.5.0.txt`, `model.v.5.3.txt`, and `model.v.5.4.txt`).
 
 ### What “compatible” means in practice
 
@@ -270,6 +270,25 @@ PRIM searches for “boxes” (regions in the uncertainty space) where:
 - **Multi-metric support:** costs, emissions, and other outputs/derived metrics
 - **Temporal analysis:** evaluate outcomes across user-defined time periods
 
+### Input source
+
+PRIM does **not** read the consolidated CSVs in `Results/`. It consumes a per-future **experiment platform** kept in a dedicated top-level directory:
+
+```text
+PRIM_Input/
+├── Executables/              # base future (Future 0)
+└── Experimental_Platform/
+    └── Futures/              # per-future inputs/outputs
+```
+
+Isolating the input here lets PRIM analyze a model that may have been computed separately from the `exp` pipeline. Populate it with:
+
+```bash
+python scripts/import_prim_input.py
+```
+
+`python run.py prim` verifies this directory exists (and is non-empty) before running; if it is missing, the run aborts with instructions to import it.
+
 ### Usage guide
 
 Detailed configuration instructions are available in:
@@ -353,15 +372,23 @@ osemosys-rdm/
 ├── run.py                          # Main automation script (DVC pipeline runner)
 ├── dvc.yaml                        # DVC pipeline definition
 ├── environment.yaml                # Conda environment specification
+├── requirements.txt                # Python dependencies (pip)
 ├── scripts/                        # DVC wrapper scripts (pipeline stages)
 │   ├── run_base_future.py          # Base future execution wrapper
 │   ├── run_rdm_experiment.py       # RDM experiment wrapper
 │   ├── run_postprocess.py          # Postprocessing wrapper
 │   ├── run_prim_files_creator.py   # PRIM files creator wrapper
-│   └── run_prim_analysis.py        # PRIM analysis wrapper
+│   ├── run_prim_analysis.py        # PRIM analysis wrapper
+│   └── import_prim_input.py        # Imports the experiment platform into PRIM_Input/
+├── tests/                          # Unit tests
+├── Results/                        # Aggregated outputs (CSV/Parquet)
+├── PRIM_Input/                     # Isolated experiment platform consumed by PRIM
+│   ├── Executables/                # Base future (Future 0)
+│   └── Experimental_Platform/
+│       └── Futures/                # Per-future inputs/outputs
 ├── src/
-│   ├── Results/                    # Aggregated outputs (CSV/Parquet)
 │   ├── workflow/
+│   │   ├── z_auxiliar_code.py      # Core library functions
 │   │   ├── 0_Scenarios/            # Input scenario files (.txt)
 │   │   ├── 1_Experiment/           # Experiment execution workspace
 │   │   │   ├── 0_From_Confection/  # Generated model structure / extracted elements
@@ -374,13 +401,14 @@ osemosys-rdm/
 │   │   │   ├── create_csv_concatenate.py
 │   │   │   ├── config_concatenate.yaml
 │   │   │   └── otoole_config/      # Conversion templates (optional)
-│   │   └── 4_PRIM/                 # PRIM scenario discovery module
+│   │   ├── 4_PRIM/                 # PRIM scenario discovery module
+│   │   └── 5_OSeMOSYS_models/      # Reference OSeMOSYS GNU MathProg models
+│   │       ├── model.v.5.0.txt     # Reference formulation (v5.0)
+│   │       ├── model.v.5.3.txt     # Reference formulation (v5.3)
+│   │       └── model.v.5.4.txt     # Reference formulation (v5.4)
 │   ├── Guides/                     # HTML documentation
-│   ├── z_auxiliar_code.py          # Core library functions
 │   ├── Interface_RDM.xlsx          # Main configuration interface
 │   └── RUN_RDM.py                  # Legacy execution entry point
-├── model.v.5.3.txt                 # Reference OSeMOSYS GNU MathProg model (v5.3)
-├── model.v.5.4.txt                 # Reference OSeMOSYS GNU MathProg model (v5.4)
 ├── LICENSE
 └── README.md
 ```
@@ -402,7 +430,7 @@ If you want to understand/extend the code, these are the key entry points:
 - `src/RUN_RDM.py`
   - legacy “main workflow” runner (called by wrappers / automation)
 
-- `src/z_auxiliar_code.py`
+- `src/workflow/z_auxiliar_code.py`
   - shared utilities (parsing OSeMOSYS files, dataset creation, solver execution helpers, transformations)
 
 - `src/Interface_RDM.xlsx`
@@ -414,7 +442,7 @@ If you want to understand/extend the code, these are the key entry points:
 
 This project works with models expressed using the OSeMOSYS architecture.
 
-The included reference formulations (`model.v.5.3.txt` and `model.v.5.4.txt`) define (among others):
+The included reference formulations under `src/workflow/5_OSeMOSYS_models/` (`model.v.5.0.txt`, `model.v.5.3.txt`, and `model.v.5.4.txt`) define (among others):
 
 - **Core sets**
   - `REGION`, `TECHNOLOGY`, `COMMODITY`, `EMISSION`, `YEAR`

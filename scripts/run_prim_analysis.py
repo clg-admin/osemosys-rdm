@@ -14,7 +14,7 @@ Dependencies:
     - src/workflow/4_PRIM/t3b_sdiscovery/experiment_data/ (from prim_files_creator)
     - src/workflow/4_PRIM/t3b_sdiscovery/Analysis_1/prim_structure.xlsx
 
-Author: AFR_RDM Team
+Author: OSeMOSYS-RDM Team
 """
 
 import os
@@ -82,7 +82,7 @@ def run_script(script_path, working_dir):
 def main():
     """Main execution function"""
     print("=" * 70)
-    print("AFR_RDM - PRIM Analysis")
+    print("OSeMOSYS-RDM - PRIM Analysis")
     print("=" * 70)
 
     # Paths

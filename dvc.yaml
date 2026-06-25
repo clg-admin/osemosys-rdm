@@ -69,7 +69,7 @@ stages:
   # ============================================================================
   # These stages execute scenario discovery analysis on RDM experiment results.
   # Run with: python run.py prim
-  # Or run all: python run.py all
+  # Or run both: python run.py rdm
 
   prim_files_creator:
     cmd: python scripts/run_prim_files_creator.py
