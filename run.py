@@ -52,7 +52,7 @@ CONDA_DEPS = {
 PIP_DEPS = {
     # python_module: pip_package
     "dvc": "dvc>=3.0.0",
-    "pyDOE": "pyDOE>=0.3.8",
+    "pyDOE": "pyDOE==0.3.8",  # pin: 1.x renamed import to lowercase `pydoe`, breaking `from pyDOE import *`
 }
 
 # Solvers are CLI executables (not importable Python modules), so they are
