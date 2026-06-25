@@ -2,6 +2,14 @@
 
 This guide will walk you through running your first OSeMOSYS-RDM analysis.
 
+```{important}
+**Conda is required.** `run.py` creates the environment and runs every command
+through Conda. Make sure you have completed the [Installation guide](installation.md)
+first — in particular, that `conda --version` works. On **Windows**, run all the
+commands below from the **Anaconda/Miniconda Prompt**, otherwise `run.py` will
+abort with *"Required tool 'conda' not found in PATH."*
+```
+
 ## Overview
 
 OSeMOSYS-RDM provides a streamlined workflow for:

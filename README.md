@@ -78,7 +78,7 @@ If you are using a different OSeMOSYS formulation (or substantially different na
 ### System
 
 - **Python 3.10+**
-- **Conda/Miniconda** (environment management)
+- **Conda (Miniconda or Anaconda) — required.** `run.py` creates the environment and runs every pipeline command through Conda; it aborts if `conda` is not on the PATH. If you don't have it, install [Miniconda](https://www.anaconda.com/docs/getting-started/miniconda/main) (lightweight, recommended) or [Anaconda](https://www.anaconda.com/download). On **Windows**, run all commands below from the **Anaconda/Miniconda Prompt** (where `conda` is available). See the [Installation guide](docs/getting-started/installation.md) for details.
 - Solvers:
   - [GLPK](https://www.gnu.org/software/glpk/) (free) and [CBC](https://github.com/coin-or/Cbc) (free) are **installed automatically** into the conda environment (`glpk` + `coincbc` from conda-forge). No manual setup needed.
   - [CPLEX](https://www.ibm.com/products/ilog-cplex-optimization-studio) (commercial) and [Gurobi](https://www.gurobi.com/) (commercial) are optional; if you select one of these, install it separately and make sure it is available on PATH.
@@ -91,6 +91,8 @@ If you are using a different OSeMOSYS formulation (or substantially different na
 ---
 
 ## Installation
+
+> **Prerequisite:** install Conda first (see [Requirements](#requirements)). On Windows, open the **Anaconda/Miniconda Prompt** and run the commands below from there — `run.py` will fail with *"Required tool 'conda' not found in PATH. Please open an Anaconda/Miniconda Prompt..."* if Conda isn't available.
 
 ### Option 1 — Automated setup (recommended)
 
