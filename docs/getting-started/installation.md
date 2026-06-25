@@ -221,6 +221,51 @@ one of the following fixes:
 
 After any of these, verify with `conda --version` in a new terminal.
 
+**Terms of Service have not been accepted (`CondaToSNonInteractiveError`)**
+
+On recent Conda versions (24+), creating the environment may fail with:
+
+```text
+CondaToSNonInteractiveError: Terms of Service have not been accepted for the following channels...
+    - https://repo.anaconda.com/pkgs/main
+    - https://repo.anaconda.com/pkgs/r
+    - https://repo.anaconda.com/pkgs/msys2
+```
+
+This comes from Anaconda's **default** channels (`repo.anaconda.com/pkgs/*`).
+OSeMOSYS-RDM does **not** need them — every dependency (including the `glpk` and
+`coincbc` solvers) is available on **conda-forge**, and `run.py` already installs
+with `-c conda-forge`. The recommended fix is therefore to avoid the default
+channels entirely rather than accept the ToS.
+
+`environment.yaml` already pins `conda-forge` and `nodefaults`, but Conda can
+still inject `defaults` from a `.condarc` configuration file. Point Conda at
+conda-forge globally:
+
+```bash
+conda config --add channels conda-forge
+conda config --set channel_priority strict
+conda config --remove channels defaults   # ignore "key not found" if it isn't there
+```
+
+```{tip}
+Conda has **more than one** `.condarc`. `conda config` edits your *home* file
+(`C:\Users\<you>\.condarc`), but the installer also writes one inside the install
+directory (`C:\Users\<you>\miniconda3\.condarc`) that can still list `defaults`.
+Run `conda config --show-sources` to see them all, and make sure **none** of them
+lists `defaults` under `channels:` (replace it with `conda-forge`). Then re-run
+the pipeline.
+```
+
+If you would rather keep the default channels, accept their Terms of Service
+instead (this accepts Anaconda's agreement on your machine):
+
+```bash
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/msys2
+```
+
 **Solver not found**
 
 If you get a "solver not found" error:

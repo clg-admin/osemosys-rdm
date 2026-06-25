@@ -1,7 +1,7 @@
 name: OSeMOSYS-RDM-env
 channels:
   - conda-forge
-  - defaults
+  - nodefaults
 dependencies:
   # Python version
   - python=3.11
