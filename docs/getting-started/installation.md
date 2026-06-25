@@ -175,6 +175,52 @@ python run.py exp --help
 
 ### Common Issues
 
+**`conda` not found in PATH**
+
+If `run.py` aborts immediately with:
+
+```text
+RuntimeError: Required tool 'conda' not found in PATH. Please open an Anaconda/Miniconda Prompt or install the tool.
+```
+
+it means you are running from a regular terminal where Conda is not on the PATH
+(the default Miniconda "Just Me" install does **not** add Conda to PATH). Pick
+one of the following fixes:
+
+- **Easiest — use the dedicated prompt:** close your terminal and run everything
+  from the **Anaconda/Miniconda Prompt** instead (see
+  [Step 0](#open-the-anaconda--miniconda-prompt-windows)). The title bar should
+  show `(base)`.
+
+- **Run from any terminal — initialize Conda once** (recommended for repeated
+  use). From the Anaconda/Miniconda Prompt:
+
+  ```bash
+  conda init cmd.exe
+  conda init powershell
+  ```
+
+  Then open a **new** terminal. This enables both `conda run` and `conda activate`.
+
+- **Run from any terminal — add Conda to the User PATH manually.** If your install
+  lives at `C:\Users\<you>\miniconda3`, add these three folders to your **User**
+  `Path` (Windows search → *"Edit environment variables for your account"* →
+  `Path` → *Edit*):
+
+  ```text
+  C:\Users\<you>\miniconda3
+  C:\Users\<you>\miniconda3\Library\bin
+  C:\Users\<you>\miniconda3\Scripts
+  ```
+
+  Adjust the base path if your distribution is Anaconda
+  (`C:\Users\<you>\anaconda3`) or installed system-wide
+  (`C:\ProgramData\miniconda3`). Open a **new** terminal afterward — PATH changes
+  do not apply to already-open windows. This is enough for `run.py` (it uses
+  `conda run`); `conda activate` still requires `conda init` above.
+
+After any of these, verify with `conda --version` in a new terminal.
+
 **Solver not found**
 
 If you get a "solver not found" error:
