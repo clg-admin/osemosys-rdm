@@ -4037,7 +4037,77 @@ def transform_output_sol_optimized(df, sheet_vars_structure, sheet_sets_structur
 
 
 
+def extract_objective_value(solution_file, solver):
+    """
+    Read the objective function value (total discounted system cost) and the
+    solver status from a solver solution file. This does NOT depend on terminal
+    output, so the value survives even if the terminal/console is closed.
+
+    Returns (status, objective_value); objective_value is a float or None.
+    """
+    try:
+        with open(solution_file, 'r', errors='ignore') as fh:
+            text = fh.read()
+    except OSError:
+        return ('UNKNOWN', None)
+
+    status, objective = 'UNKNOWN', None
+    if solver == 'cbc':
+        # CBC -solu header, e.g. "Optimal - objective value 7026931758.0000000"
+        m = re.search(r'objective value\s+([-+0-9.eE]+)', text)
+        if m:
+            objective = float(m.group(1))
+        ms = re.match(r'\s*([A-Za-z]+)', text)
+        if ms:
+            status = ms.group(1)
+    elif solver == 'cplex':
+        # CPLEX .sol is XML: objectiveValue="..." / solutionStatusString="..."
+        m = re.search(r'objectiveValue="([^"]+)"', text)
+        if m:
+            objective = float(m.group(1))
+        ms = re.search(r'solutionStatusString="([^"]+)"', text)
+        if ms:
+            status = ms.group(1)
+    elif solver == 'gurobi':
+        # Gurobi .sol header comment: "# Objective value = X"
+        m = re.search(r'Objective value\s*=\s*([-+0-9.eE]+)', text)
+        if m:
+            objective = float(m.group(1))
+        status = 'Optimal' if objective is not None else 'UNKNOWN'
+    elif solver == 'glpk':
+        # GLPK -o output: "Objective:  <name> = X (MINimum)" / "Status: OPTIMAL"
+        m = re.search(r'Objective:\s*\S+\s*=\s*([-+0-9.eE]+)', text)
+        if m:
+            objective = float(m.group(1))
+        ms = re.search(r'Status:\s*([A-Za-z]+)', text)
+        if ms:
+            status = ms.group(1)
+    return (status, objective)
+
+
+def _save_future_objective(solution_file, solver, strategy, fut_id):
+    """
+    Write a one-row CSV with this future's objective value next to its outputs,
+    BEFORE the solver solution file is deleted by data_processor_new. The
+    postprocess stage aggregates these into src/Results/objectives_futures.csv.
+    """
+    status, objective = extract_objective_value(solution_file, solver)
+    out_dir = os.path.dirname(solution_file)
+    out_path = os.path.join(out_dir, f"{strategy}_{fut_id}_objective.csv")
+    with open(out_path, 'w', newline='') as fh:
+        w = csv.writer(fh)
+        w.writerow(['Strategy', 'Future.ID', 'Solver', 'Status', 'Objective_Value'])
+        w.writerow([strategy, fut_id, solver, status, objective])
+    print(f"  Objective [{strategy} fut {fut_id}] = {objective} ({status})")
+
+
 def data_processor_new(output_file, model_structure, strategy, fut_id, solver, parameters_to_print, output_file_type):
+    # Capture the objective value before the solution file is processed/deleted
+    try:
+        _save_future_objective(output_file, solver, strategy, fut_id)
+    except Exception as _e:
+        print(f"WARN: could not capture objective for {strategy}_{fut_id}: {_e}")
+
     # Parse the .sol file
     if solver == 'cbc':
         df = parse_cbc_sol_file(output_file, parameters_to_print)

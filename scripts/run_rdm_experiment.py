@@ -45,21 +45,34 @@ def configure_for_rdm_only(interface_path):
     """
     Modify Interface_RDM.xlsx to run only RDM experiment.
     Sets Run_Base_Future=No and Run_RDM=Yes
-    Also caches formula values in Uncertainty_Table to avoid NaN issues.
+    Also caches formula values in ALL sheets to avoid NaN issues.
+
+    IMPORTANT: openpyxl cannot evaluate formulas. When it re-saves the workbook,
+    every formula cell is written WITHOUT its calculated result, so any tool that
+    later reads the file (pandas) sees NaN for those cells. We therefore snapshot
+    the calculated values of every formula cell (data_only=True) and write them
+    back as literals before saving.
+
+    This must cover ALL sheets, not just Uncertainty_Table. In particular the
+    'Params_Sets_Vari' sheet stores the number of indexing sets per parameter in a
+    '=COUNTA(...)' formula row; if that is lost to NaN, 0_experiment_manager.py
+    reads df_Params_Sets_Vari.loc['Number', param] as NaN, every
+    `number_sets_by_param == 1/2/3` test in PART 3 fails, no parameter is ever
+    perturbed, and all futures come out identical (only Future.ID differs) ->
+    PRIM gets zero-variance metrics and writes an empty CSV.
     """
     print("📝 Configuring Interface_RDM.xlsx for RDM experiment only...")
 
-    # Load with data_only=True to get calculated values from formulas
+    # Load with data_only=True to get calculated values from formulas (ALL sheets)
     wb_data = load_workbook(interface_path, data_only=True)
-
-    # Extract calculated values from Uncertainty_Table
-    ws_unc_data = wb_data['Uncertainty_Table']
     cached_values = {}
-    for row_idx in range(1, ws_unc_data.max_row + 1):
-        for col_idx in range(1, ws_unc_data.max_column + 1):
-            cell_value = ws_unc_data.cell(row=row_idx, column=col_idx).value
-            if cell_value is not None:
-                cached_values[(row_idx, col_idx)] = cell_value
+    for sheet_name in wb_data.sheetnames:
+        ws_data = wb_data[sheet_name]
+        for row_idx in range(1, ws_data.max_row + 1):
+            for col_idx in range(1, ws_data.max_column + 1):
+                cell_value = ws_data.cell(row=row_idx, column=col_idx).value
+                if cell_value is not None:
+                    cached_values[(sheet_name, row_idx, col_idx)] = cell_value
     wb_data.close()
 
     # Load normally to modify
@@ -77,19 +90,23 @@ def configure_for_rdm_only(interface_path):
     if 'Run_RDM' in headers:
         ws_setup.cell(row=2, column=headers['Run_RDM'], value='Yes')
 
-    # Write cached values back to Uncertainty_Table to preserve formula results
-    ws_unc = wb['Uncertainty_Table']
-    for (row_idx, col_idx), value in cached_values.items():
-        cell = ws_unc.cell(row=row_idx, column=col_idx)
-        # Only replace formula cells with their calculated values
+    # Write cached values back to every formula cell (all sheets) to preserve
+    # formula results. The startswith('=') guard means only formula cells are
+    # overwritten, so the Setup edits above are kept.
+    n_cached = 0
+    for (sheet_name, row_idx, col_idx), value in cached_values.items():
+        ws = wb[sheet_name]
+        cell = ws.cell(row=row_idx, column=col_idx)
         if str(cell.value).startswith('=') if cell.value else False:
             cell.value = value
+            n_cached += 1
 
     # Save the workbook
     wb.save(interface_path)
     wb.close()
 
-    print("✓ Configuration updated: Run_Base_Future=No, Run_RDM=Yes")
+    print(f"✓ Configuration updated: Run_Base_Future=No, Run_RDM=Yes "
+          f"({n_cached} formula cells cached across all sheets)")
 
 def generate_metrics(platform_dir, metrics_file):
     """
