@@ -10,12 +10,6 @@ Executables: 'Executables'
 Experi_Plat: 'Experimental_Platform'
 Futures: 'Futures'
 
-# Dedicated PRIM input root: a snapshot of the experiment platform PRIM consumes
-# (Executables/ and Experimental_Platform/Futures/), isolated from EXP runs of
-# other models. Path is relative to this 4_PRIM directory, or absolute. Comment
-# out (or leave empty) to read directly from the live src/workflow/1_Experiment.
-prim_input_root: '../../../PRIM_Input'
-
 # Prim files creator figs cntrl
 # File (First letter of the word y uppercase)
 Prim_files_crea_figs: 'prim_files_creator_figs_cntrl.xlsx'
