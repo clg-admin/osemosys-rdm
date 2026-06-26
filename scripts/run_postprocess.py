@@ -119,6 +119,31 @@ def main():
         # Ensure Results directory exists (even if empty) for DVC
         results_dir.mkdir(parents=True, exist_ok=True)
 
+        # Aggregate per-future objective values into a single CSV in Results/
+        # (written by z_auxiliar_code._save_future_objective during solving, so the
+        # objective function value survives even if the terminal is closed).
+        try:
+            import glob
+            import pandas as pd
+            obj_roots = [
+                experiment_dir / 'Executables',
+                experiment_dir / 'Experimental_Platform' / 'Futures',
+            ]
+            obj_files = []
+            for root in obj_roots:
+                obj_files.extend(glob.glob(str(root / '**' / '*_objective.csv'), recursive=True))
+            if obj_files:
+                obj_df = pd.concat([pd.read_csv(f) for f in obj_files], ignore_index=True)
+                obj_df['_fid'] = pd.to_numeric(obj_df['Future.ID'], errors='coerce')
+                obj_df = obj_df.sort_values(['Strategy', '_fid']).drop(columns='_fid')
+                obj_out = results_dir / 'objectives_futures.csv'
+                obj_df.to_csv(obj_out, index=False)
+                print(f"✓ Objective values written to {obj_out} ({len(obj_df)} solves)")
+            else:
+                print("ℹ️  No per-future objective files found to aggregate.")
+        except Exception as e:
+            print(f"⚠️  Could not aggregate objective values: {e}")
+
         # Generate metrics
         elapsed_time = time.time() - start_time
         print(f"\n⏱️  Execution time: {elapsed_time:.2f} seconds")
