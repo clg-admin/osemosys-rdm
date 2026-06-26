@@ -25,6 +25,26 @@ Function 1 (f1): open the files from the indicated directory and
 execute the post-processing functions. '''
 
 
+def _prefer_parquet(files):
+    """Collapse duplicate data files to a single format, preferring parquet.
+
+    When a directory holds the same logical file as both ``.parquet`` and
+    ``.csv`` (matched by stem), keep only the ``.parquet`` and drop the
+    ``.csv``. Files without a parquet twin are returned untouched. Input order
+    is preserved.
+    """
+    by_stem = {}
+    for f in files:
+        stem = Path(f).stem
+        by_stem.setdefault(stem, []).append(f)
+    kept = []
+    for group in by_stem.values():
+        parquet_twins = [g for g in group
+                         if Path(g).suffix.lower() == '.parquet']
+        kept.extend(parquet_twins if parquet_twins else group)
+    return kept
+
+
 def f1_create_prim_files(dir_elements, dirl, scen, dict_pfcp, analysis_list,
                          dict_set_matching, period_control, all_exp_data,
                          exp_id, params, dicPop):
@@ -90,6 +110,16 @@ def f1_create_prim_files(dir_elements, dirl, scen, dict_pfcp, analysis_list,
     # For efficiency, open all pandas dataframes and store for later use:
     elmnt_input = [e for e in dir_elements if params['input'] in e.lower()]
     elmnt_output = [e for e in dir_elements if params['output'] in e.lower()]
+
+    # When a future ships the same data as both .parquet and .csv (e.g. LHS
+    # futures expose *_Input.parquet next to a *_Input.csv), keep only the
+    # .parquet. The redundant CSVs are sometimes ';'-delimited while the loader
+    # reads them as comma-separated, collapsing every row into a single column;
+    # that later raises a KeyError on 'TECHNOLOGY' and the worker sys.exit()s,
+    # silently dropping the future from the compiled output. Preferring the
+    # parquet avoids both the mis-delimited read and double-counting the source.
+    elmnt_input = _prefer_parquet(elmnt_input)
+    elmnt_output = _prefer_parquet(elmnt_output)
     elmnt_tem = [e for e in dir_elements if params['tem'] in e.lower() and
                 params['gini'] not in e.lower() and params['reg'] not in e.lower()]
     elmnt_utem = [e for e in elmnt_tem if params['upg'] in e.lower()]
