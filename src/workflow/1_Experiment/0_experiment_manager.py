@@ -754,6 +754,7 @@ def function_C_mathprog_parallel( fut_index, scen, inherited_scenarios, unpackag
     parameters_in_the_model =           unpackaged_useful_elements[7]
     parameters_without_values =         unpackaged_useful_elements[8]
     special_sets =                      unpackaged_useful_elements[9]
+    osemosys_model =                    unpackaged_useful_elements[10]
     #
     list_param_default_value_params = list( list_param_default_value['Parameter'] )
     list_param_default_value_value = list( list_param_default_value['Default_Value'] )
@@ -1108,9 +1109,12 @@ def function_C_mathprog_parallel( fut_index, scen, inherited_scenarios, unpackag
     g.write('#\n' + 'end;\n')
     g.close()
     #
-    # Pre-process the data file to add commodity-technology-mode sets and CRF/PvAnnuity
+    # Pre-process the data file to add commodity-technology-mode sets and CRF/PvAnnuity.
+    # Pass the chosen model so only the helper sets it declares are emitted
+    # (the INPUTx* sets exist only in model.v.5.4, not model.v.5.0/5.3).
     from preprocess_data import main as preprocess_main
-    preprocess_main(g_path, g_path)
+    model_file = os.path.join(os.path.dirname(current_script_path), '5_OSeMOSYS_models', osemosys_model)
+    preprocess_main(g_path, g_path, model_file)
     #
     ###########################################################################################################################
     # Furthermore, we must print the inputs separately for fast deployment of the input matrix:
@@ -2909,7 +2913,8 @@ if __name__ == '__main__':
                 packaged_useful_elements = [scenario_list_print, S_DICT_sets_structure, S_DICT_params_structure,
                                             list_param_default_value,
                                             print_adress, all_futures, time_range_vector,dict_parameters_in_the_model[scenario_list_print[fut_id_new]],
-                                            dict_parameters_without_values[scenario_list_print[fut_id_new]], dict_special_sets[scenario_list_print[fut_id_new]]]
+                                            dict_parameters_without_values[scenario_list_print[fut_id_new]], dict_special_sets[scenario_list_print[fut_id_new]],
+                                            osemosys_model]
                 
                 # x = len(all_futures) * len(scenario_list_print)
                 x = len(all_futures)
