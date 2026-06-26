@@ -1,4 +1,4 @@
-10/11/2025 11:07:00
+26/06/2026 20:01:53
 1. Performing analysis for Analysis_1. Opening all data.
      > Data is open.
 2. We will now iterate across experiments:  1_Experiment,
@@ -67,61 +67,26 @@
      => Working with column family: o_pure_direct_d_pure_direct and period 21-30 for Costs (1)
 
          8. Normalizing the dataframe.
-         > Action! Applying thresholds : High, Low,
+         > No action for this family and period. *Normalized* columns are zero.
          > Report on the PRIM findings for valid columns.
-         >> Column: Costs_direct // Level: 1
-         >> Thld. type: High (base) // Thld. range: 75 // Thld. value: 4.04e-01
-             >>> Coverage: 1.0 // Density: 1.0 // Avg(Cov, Den) : 1.0
-             >>> Driver: Variable Costs Import Fuels_direct // Min (norm): 0.14 // Min (real): 9.37e-01 // Max (norm): 0.97 // Max (real): 9.63e-01
-             >>> Driver: Capital Costs Electric Transport_direct // Min (norm): 0.15 // Min (real): 9.76e-01 // Max (norm): 0.96 // Max (real): 1.00e+00
-             >>> Driver: Capital Costs ICE Transport_direct // Min (norm): 0.08 // Min (real): 1.00e+00 // Max (norm): 0.72 // Max (real): 1.01e+00
-             >>> Driver: Fixed Costs Electric Transport_direct // Min (norm): 0.00 // Min (real): 9.97e-01 // Max (norm): 0.86 // Max (real): 1.01e+00
-             >>> Driver: Capital Costs Industry_direct // Min (norm): 0.04 // Min (real): 9.97e-01 // Max (norm): 1.00 // Max (real): 1.01e+00
-             >>> Driver: Fixed Costs Crops_direct // Min (norm): 0.09 // Min (real): 9.96e-01 // Max (norm): 1.00 // Max (real): 1.02e+00
-         >> Column: Costs_direct // Level: 1
-         >> Thld. type: Low (base) // Thld. range: 25 // Thld. value: 2.99e-01
-             >>> Coverage: 1.0 // Density: 1.0 // Avg(Cov, Den) : 1.0
-             >>> Driver: Capital Costs Industry_direct // Min (norm): 0.21 // Min (real): 1.00e+00 // Max (norm): 0.69 // Max (real): 1.01e+00
-             >>> Driver: Capital Costs ICE Transport_direct // Min (norm): 0.06 // Min (real): 9.99e-01 // Max (norm): 0.39 // Max (real): 1.00e+00
-             >>> Driver: Fixed Costs Electric Transport_direct // Min (norm): 0.00 // Min (real): 9.97e-01 // Max (norm): 0.64 // Max (real): 1.00e+00
-             >>> Driver: Capital Costs Electric Transport_direct // Min (norm): 0.07 // Min (real): 9.73e-01 // Max (norm): 0.89 // Max (real): 1.00e+00
+         > No PRIM to report for family. No *dict_infos* content.
+False,True,False
 
      => Working with column family: o_pure_direct_d_pure_direct and period 31-40 for Costs (1)
 
          8. Normalizing the dataframe.
-         > Action! Applying thresholds : High, Low,
+         > No action for this family and period. *Normalized* columns are zero.
          > Report on the PRIM findings for valid columns.
-         >> Column: Costs_direct // Level: 1
-         >> Thld. type: High (base) // Thld. range: 75 // Thld. value: 7.54e-01
-             >>> Coverage: 0.2 // Density: 0.5 // Avg(Cov, Den) : 0.35
-             >>> Driver: Fuel Demand_direct // Min (norm): 0.31 // Min (real): 1.39e+02 // Max (norm): 1.00 // Max (real): 1.41e+02
-         >> Column: Costs_direct // Level: 1
-         >> Thld. type: Low (base) // Thld. range: 25 // Thld. value: 3.95e-01
-             >>> Coverage: 0.2 // Density: 0.5 // Avg(Cov, Den) : 0.35
-             >>> Driver: Fuel Demand_direct // Min (norm): 0.31 // Min (real): 1.39e+02 // Max (norm): 1.00 // Max (real): 1.41e+02
+         > No PRIM to report for family. No *dict_infos* content.
+False,True,False
 
      => Working with column family: o_pure_direct_d_pure_direct and period 41-50 for Costs (1)
 
          8. Normalizing the dataframe.
-         > Action! Applying thresholds : High, Low,
+         > No action for this family and period. *Normalized* columns are zero.
          > Report on the PRIM findings for valid columns.
-         >> Column: Costs_direct // Level: 1
-         >> Thld. type: High (base) // Thld. range: 75 // Thld. value: 7.64e-01
-             >>> Coverage: 1.0 // Density: 1.0 // Avg(Cov, Den) : 1.0
-             >>> Driver: Capital Costs Electric Transport_direct // Min (norm): 0.28 // Min (real): 9.29e-01 // Max (norm): 0.79 // Max (real): 1.13e+00
-             >>> Driver: Capital Costs ICE Transport_direct // Min (norm): 0.00 // Min (real): 9.53e-01 // Max (norm): 0.69 // Max (real): 1.09e+00
-             >>> Driver: Residential Demand_direct // Min (norm): 0.30 // Min (real): 2.13e+02 // Max (norm): 1.00 // Max (real): 2.41e+02
-             >>> Driver: Capital Costs Industry_direct // Min (norm): 0.04 // Min (real): 9.60e-01 // Max (norm): 1.00 // Max (real): 1.18e+00
-             >>> Driver: Fixed Costs Crops_direct // Min (norm): 0.09 // Min (real): 9.47e-01 // Max (norm): 1.00 // Max (real): 1.24e+00
-         >> Column: Costs_direct // Level: 1
-         >> Thld. type: Low (base) // Thld. range: 25 // Thld. value: 4.35e-01
-             >>> Coverage: 1.0 // Density: 1.0 // Avg(Cov, Den) : 1.0
-             >>> Driver: Capital Costs ICE Transport_direct // Min (norm): 0.00 // Min (real): 9.53e-01 // Max (norm): 0.51 // Max (real): 1.05e+00
-             >>> Driver: Variable Costs Crops_direct // Min (norm): 0.00 // Min (real): 9.63e-01 // Max (norm): 0.38 // Max (real): 1.04e+00
-             >>> Driver: Capital Costs Electric Transport_direct // Min (norm): 0.00 // Min (real): 8.24e-01 // Max (norm): 0.93 // Max (real): 1.18e+00
-             >>> Driver: Fixed Costs Electric Transport_direct // Min (norm): 0.00 // Min (real): 9.61e-01 // Max (norm): 0.64 // Max (real): 1.06e+00
-             >>> Driver: Fixed Costs ICE Transport_direct // Min (norm): 0.00 // Min (real): 9.57e-01 // Max (norm): 0.57 // Max (real): 1.03e+00
-             >>> Driver: Fuel Demand_direct // Min (norm): 0.14 // Min (real): 2.53e+02 // Max (norm): 0.61 // Max (real): 2.56e+02
+         > No PRIM to report for family. No *dict_infos* content.
+False,True,False
 
 ===> Analyzing block: 2
 
@@ -130,57 +95,25 @@
      => Working with column family: o_pure_direct_d_pure_direct and period 21-30 for Emissions (2)
 
          8. Normalizing the dataframe.
-         > Action! Applying thresholds : High, Low,
+         > No action for this family and period. *Normalized* columns are zero.
          > Report on the PRIM findings for valid columns.
-         >> Column: Emissions_direct // Level: 1
-         >> Thld. type: High (base) // Thld. range: 75 // Thld. value: 6.06e-01
-             >>> Coverage: 0.2 // Density: 0.5 // Avg(Cov, Den) : 0.35
-             >>> Driver: Fuel Demand_direct // Min (norm): 0.26 // Min (real): 7.73e+01 // Max (norm): 1.00 // Max (real): 7.75e+01
-         >> Column: Emissions_direct // Level: 1
-         >> Thld. type: Low (base) // Thld. range: 25 // Thld. value: 1.54e-01
-             >>> Coverage: 1.0 // Density: 1.0 // Avg(Cov, Den) : 1.0
-             >>> Driver: Capital Costs ICE Transport_direct // Min (norm): 0.25 // Min (real): 1.00e+00 // Max (norm): 1.00 // Max (real): 1.01e+00
-             >>> Driver: Fixed Costs Crops_direct // Min (norm): 0.00 // Min (real): 9.94e-01 // Max (norm): 0.50 // Max (real): 1.01e+00
-             >>> Driver: Capital Costs Electric Transport_direct // Min (norm): 0.20 // Min (real): 9.78e-01 // Max (norm): 1.00 // Max (real): 1.00e+00
-             >>> Driver: Capital Costs Industry_direct // Min (norm): 0.14 // Min (real): 9.99e-01 // Max (norm): 1.00 // Max (real): 1.01e+00
-             >>> Driver: Fixed Costs Electric Transport_direct // Min (norm): 0.00 // Min (real): 9.97e-01 // Max (norm): 0.92 // Max (real): 1.01e+00
+         > No PRIM to report for family. No *dict_infos* content.
+False,True,False
 
      => Working with column family: o_pure_direct_d_pure_direct and period 31-40 for Emissions (2)
 
          8. Normalizing the dataframe.
-         > Action! Applying thresholds : High, Low,
+         > No action for this family and period. *Normalized* columns are zero.
          > Report on the PRIM findings for valid columns.
-         >> Column: Emissions_direct // Level: 1
-         >> Thld. type: High (base) // Thld. range: 75 // Thld. value: 7.41e-01
-             >>> Coverage: 0.2 // Density: 0.5 // Avg(Cov, Den) : 0.35
-             >>> Driver: Fuel Demand_direct // Min (norm): 0.31 // Min (real): 1.39e+02 // Max (norm): 1.00 // Max (real): 1.41e+02
-         >> Column: Emissions_direct // Level: 1
-         >> Thld. type: Low (base) // Thld. range: 25 // Thld. value: 3.94e-01
-             >>> Coverage: 1.0 // Density: 1.0 // Avg(Cov, Den) : 1.0
-             >>> Driver: Capital Costs ICE Transport_direct // Min (norm): 0.25 // Min (real): 1.00e+00 // Max (norm): 1.00 // Max (real): 1.09e+00
-             >>> Driver: Fixed Costs Crops_direct // Min (norm): 0.00 // Min (real): 9.58e-01 // Max (norm): 0.50 // Max (real): 1.04e+00
-             >>> Driver: Capital Costs Industry_direct // Min (norm): 0.14 // Min (real): 9.91e-01 // Max (norm): 0.78 // Max (real): 1.06e+00
-             >>> Driver: Capital Costs Electric Transport_direct // Min (norm): 0.20 // Min (real): 9.22e-01 // Max (norm): 1.00 // Max (real): 1.09e+00
+         > No PRIM to report for family. No *dict_infos* content.
+False,True,False
 
      => Working with column family: o_pure_direct_d_pure_direct and period 41-50 for Emissions (2)
 
          8. Normalizing the dataframe.
-         > Action! Applying thresholds : High, Low,
+         > No action for this family and period. *Normalized* columns are zero.
          > Report on the PRIM findings for valid columns.
-         >> Column: Emissions_direct // Level: 1
-         >> Thld. type: High (base) // Thld. range: 75 // Thld. value: 6.90e-01
-             >>> Coverage: 1.0 // Density: 1.0 // Avg(Cov, Den) : 1.0
-             >>> Driver: Fuel Demand_direct // Min (norm): 0.14 // Min (real): 2.53e+02 // Max (norm): 1.00 // Max (real): 2.59e+02
-             >>> Driver: Capital Costs Electric Transport_direct // Min (norm): 0.00 // Min (real): 8.24e-01 // Max (norm): 0.57 // Max (real): 1.04e+00
-             >>> Driver: Capital Costs ICE Transport_direct // Min (norm): 0.00 // Min (real): 9.53e-01 // Max (norm): 0.51 // Max (real): 1.05e+00
-             >>> Driver: Capital Costs Industry_direct // Min (norm): 0.27 // Min (real): 1.01e+00 // Max (norm): 1.00 // Max (real): 1.18e+00
-             >>> Driver: Variable Costs Import Fuels_direct // Min (norm): 0.01 // Min (real): 8.65e-01 // Max (norm): 1.00 // Max (real): 1.29e+00
-         >> Column: Emissions_direct // Level: 1
-         >> Thld. type: Low (base) // Thld. range: 25 // Thld. value: 3.24e-01
-             >>> Coverage: 1.0 // Density: 1.0 // Avg(Cov, Den) : 1.0
-             >>> Driver: Capital Costs ICE Transport_direct // Min (norm): 0.25 // Min (real): 1.00e+00 // Max (norm): 1.00 // Max (real): 1.15e+00
-             >>> Driver: Fixed Costs Crops_direct // Min (norm): 0.00 // Min (real): 9.18e-01 // Max (norm): 0.50 // Max (real): 1.08e+00
-             >>> Driver: Capital Costs Industry_direct // Min (norm): 0.14 // Min (real): 9.83e-01 // Max (norm): 0.78 // Max (real): 1.13e+00
-             >>> Driver: Capital Costs Electric Transport_direct // Min (norm): 0.20 // Min (real): 9.01e-01 // Max (norm): 1.00 // Max (real): 1.20e+00
+         > No PRIM to report for family. No *dict_infos* content.
+False,True,False
 
 9. The automatic PRIM results (from the structured analysis) have been completed.
