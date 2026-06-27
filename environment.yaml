@@ -32,4 +32,4 @@ dependencies:
   - pip
   - pip:
       - dvc>=3.0.0
-      - pyDOE>=0.3.8
+      - pyDOE==0.3.8
