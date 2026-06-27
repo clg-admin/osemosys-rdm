@@ -14,7 +14,7 @@ Manual execution:
 DVC integration:
     Called automatically by DVC when executing the 'rdm_experiment' stage.
 
-Author: AFR_RDM Team
+Author: Andrey Salazar-Vargas
 """
 
 import os
@@ -146,7 +146,7 @@ def generate_metrics(platform_dir, metrics_file):
 def main():
     """Main execution function"""
     print("=" * 70)
-    print("AFR_RDM - RDM Experiment Execution")
+    print("OSeMOSYS-RDM - RDM Experiment Execution")
     print("=" * 70)
 
     # Paths

@@ -174,9 +174,9 @@ python run.py prim
 
 ```bash
 # Individual DVC stages
-conda run -n AFR-RDM-env dvc repro base_future
-conda run -n AFR-RDM-env dvc repro rdm_experiment
-conda run -n AFR-RDM-env dvc repro postprocess
+conda run -n OSeMOSYS-RDM-env dvc repro base_future
+conda run -n OSeMOSYS-RDM-env dvc repro rdm_experiment
+conda run -n OSeMOSYS-RDM-env dvc repro postprocess
 ```
 
 ## Data Flow

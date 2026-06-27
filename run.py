@@ -1,7 +1,7 @@
 # run.py
 # -*- coding: utf-8 -*-
 """
-DVC Pipeline Runner for AFR_RDM with Conda environment management.
+DVC Pipeline Runner for OSeMOSYS-RDM with Conda environment management.
 
 Usage:
     python run.py exp          # Execute RDM pipeline (base_future → rdm_experiment → postprocess)
@@ -16,7 +16,7 @@ Features:
 - Runs 'dvc repro' to execute the selected pipeline
 - Tracks execution time and provides detailed progress feedback
 
-Author: AFR_RDM Team
+Author: Andrey Salazar-Vargas
 """
 
 import argparse
@@ -28,7 +28,7 @@ from pathlib import Path
 import json
 
 # ---------- Default Configuration ----------
-ENV_NAME_DEFAULT = "AFR-RDM-env"
+ENV_NAME_DEFAULT = "OSeMOSYS-RDM-env"
 ENV_FILE_DEFAULT = "environment.yaml"
 DVC_FILE = "dvc.yaml"
 
@@ -452,7 +452,7 @@ def run_prim_pipeline(env_name: str, skip_pull: bool) -> None:
 # ---------- Main Function ----------
 def main():
     parser = argparse.ArgumentParser(
-        description="AFR_RDM Pipeline Runner - Execute RDM and PRIM analysis pipelines",
+        description="OSeMOSYS-RDM Pipeline Runner - Execute RDM and PRIM analysis pipelines",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -496,7 +496,7 @@ Examples:
 
     # Header
     print("=" * 70)
-    print("AFR_RDM Pipeline Runner")
+    print("OSeMOSYS-RDM Pipeline Runner")
     print("=" * 70)
     print(f"Module: {args.module.upper()}")
     print(f"Environment: {env_name}")

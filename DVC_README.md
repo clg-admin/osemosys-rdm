@@ -1,13 +1,13 @@
-# DVC Integration for AFR_RDM
+# DVC Integration for OSeMOSYS-RDM
 
-This document explains how to use the DVC (Data Version Control) pipeline automation for the AFR_RDM project.
+This document explains how to use the DVC (Data Version Control) pipeline automation for the OSeMOSYS-RDM project.
 
 ## Overview
 
 The DVC integration provides:
 - **Automated environment setup**: Creates and manages Conda environment
 - **Dependency management**: Automatically installs all required packages
-- **Pipeline automation**: Executes the complete AFR_RDM workflow
+- **Pipeline automation**: Executes the complete OSeMOSYS-RDM workflow
 - **Reproducibility**: Ensures consistent results across different machines
 - **Data versioning**: Tracks large data files without storing them in Git
 
@@ -22,7 +22,7 @@ The DVC integration provides:
 ### First Time Setup (DVC Automation)
 
 1. Open a terminal (Anaconda Prompt on Windows)
-2. Navigate to the AFR_RDM directory
+2. Navigate to the OSeMOSYS-RDM directory
 3. Run the pipeline:
 
 ```bash
@@ -30,7 +30,7 @@ python run.py
 ```
 
 This will automatically:
-- Create a Conda environment named `AFR-RDM-env`
+- Create a Conda environment named `OSeMOSYS-RDM-env`
 - Install all dependencies (pandas, numpy, DVC, etc.)
 - Initialize DVC if needed
 - Execute the complete pipeline
@@ -119,27 +119,27 @@ The `dvc.yaml` file defines the following stages:
 
 ### Check pipeline status
 ```bash
-conda run -n AFR-RDM-env dvc status
+conda run -n OSeMOSYS-RDM-env dvc status
 ```
 
 ### View pipeline DAG
 ```bash
-conda run -n AFR-RDM-env dvc dag
+conda run -n OSeMOSYS-RDM-env dvc dag
 ```
 
 ### Execute specific stage
 ```bash
-conda run -n AFR-RDM-env dvc repro base_future
+conda run -n OSeMOSYS-RDM-env dvc repro base_future
 ```
 
 ### Pull data from remote
 ```bash
-conda run -n AFR-RDM-env dvc pull
+conda run -n OSeMOSYS-RDM-env dvc pull
 ```
 
 ### Push data to remote
 ```bash
-conda run -n AFR-RDM-env dvc push
+conda run -n OSeMOSYS-RDM-env dvc push
 ```
 
 ## Configuring Remote Storage
@@ -148,23 +148,23 @@ To share data with your team, configure a DVC remote:
 
 ### Local Directory
 ```bash
-conda run -n AFR-RDM-env dvc remote add -d myremote /path/to/storage
+conda run -n OSeMOSYS-RDM-env dvc remote add -d myremote /path/to/storage
 ```
 
 ### Google Drive
 ```bash
-conda run -n AFR-RDM-env dvc remote add -d gdrive gdrive://folder_id
-conda run -n AFR-RDM-env dvc remote modify gdrive gdrive_acknowledge_abuse true
+conda run -n OSeMOSYS-RDM-env dvc remote add -d gdrive gdrive://folder_id
+conda run -n OSeMOSYS-RDM-env dvc remote modify gdrive gdrive_acknowledge_abuse true
 ```
 
 ### Amazon S3
 ```bash
-conda run -n AFR-RDM-env dvc remote add -d s3remote s3://mybucket/path
+conda run -n OSeMOSYS-RDM-env dvc remote add -d s3remote s3://mybucket/path
 ```
 
 ### Azure Blob Storage
 ```bash
-conda run -n AFR-RDM-env dvc remote add -d azure azure://container/path
+conda run -n OSeMOSYS-RDM-env dvc remote add -d azure azure://container/path
 ```
 
 ## Parameters Tracking
@@ -185,7 +185,7 @@ The pipeline generates metrics files:
 
 View metrics:
 ```bash
-conda run -n AFR-RDM-env dvc metrics show
+conda run -n OSeMOSYS-RDM-env dvc metrics show
 ```
 
 ## Troubleshooting
@@ -193,21 +193,21 @@ conda run -n AFR-RDM-env dvc metrics show
 ### Environment issues
 If you encounter environment problems, recreate it:
 ```bash
-conda env remove -n AFR-RDM-env
+conda env remove -n OSeMOSYS-RDM-env
 python run.py
 ```
 
 ### DVC not initialized
 If DVC is not initialized:
 ```bash
-conda run -n AFR-RDM-env dvc init
+conda run -n OSeMOSYS-RDM-env dvc init
 ```
 
 ### Missing dependencies
 The `run.py` script automatically checks and installs missing dependencies.
 If manual installation is needed:
 ```bash
-conda activate AFR-RDM-env
+conda activate OSeMOSYS-RDM-env
 pip install -r requirements.txt
 ```
 
@@ -220,7 +220,7 @@ Ensure your solver (GLPK/CBC/CPLEX/Gurobi) is:
 ## Files Structure
 
 ```
-AFR_RDM/
+OSeMOSYS-RDM/
 ├── run.py                  # Main runner script
 ├── dvc.yaml               # Pipeline definition
 ├── environment.yaml       # Conda environment specification
@@ -418,5 +418,5 @@ You can mix both approaches:
 For issues or questions:
 1. Check this documentation
 2. Review DVC official docs: https://dvc.org/doc
-3. Check the main README.md for AFR_RDM-specific questions
+3. Check the main README.md for OSeMOSYS-RDM-specific questions
 4. For manual execution issues, verify dependencies: `pip list`

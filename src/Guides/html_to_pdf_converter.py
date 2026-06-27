@@ -1,6 +1,6 @@
 """
 Advanced HTML to PDF Converter with custom styling for each guide
-Author: AFR_RDM Team
+Author: Andrey Salazar-Vargas
 """
 
 from playwright.sync_api import sync_playwright
@@ -480,7 +480,7 @@ def main():
         {
             'html_file': 'Guide ARF_RDM.html',
             'method': 'two_step',
-            'description': 'AFR_RDM Guide (header on first page only, no sidebar)'
+            'description': 'OSeMOSYS-RDM Guide (header on first page only, no sidebar)'
         },
         {
             'html_file': 'Guide PRIM Module Configuration.html',

@@ -206,7 +206,7 @@ Execution controls and analysis periods:
 The Conda environment specification:
 
 ```yaml
-name: AFR-RDM-env
+name: OSeMOSYS-RDM-env
 channels:
   - conda-forge
   - defaults

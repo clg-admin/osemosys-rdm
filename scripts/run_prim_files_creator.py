@@ -14,7 +14,7 @@ Dependencies:
     - src/workflow/4_PRIM/prim_files_creator_cntrl.xlsx
     - src/workflow/4_PRIM/PRIM_t3f2.yaml
 
-Author: AFR_RDM Team
+Author: Andrey Salazar-Vargas
 """
 
 import os
@@ -55,7 +55,7 @@ def generate_metrics(output_dir, metrics_file):
 def main():
     """Main execution function"""
     print("=" * 70)
-    print("AFR_RDM - PRIM Files Creator")
+    print("OSeMOSYS-RDM - PRIM Files Creator")
     print("=" * 70)
 
     # Paths

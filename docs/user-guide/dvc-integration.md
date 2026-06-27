@@ -85,7 +85,7 @@ stages:
 View the pipeline structure:
 
 ```bash
-conda run -n AFR-RDM-env dvc dag
+conda run -n OSeMOSYS-RDM-env dvc dag
 ```
 
 Output:

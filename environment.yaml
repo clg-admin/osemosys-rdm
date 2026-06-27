@@ -1,4 +1,4 @@
-name: AFR-RDM-env
+name: OSeMOSYS-RDM-env
 channels:
   - conda-forge
   - defaults
