@@ -321,15 +321,15 @@ def ensure_dvc_repo(env_name: str, use_scm: bool = True) -> None:
             config_text = config_file.read_text() if config_file.exists() else ""
             if "no_scm" not in config_text:
                 print("  Configuring DVC for standalone mode (no Git)...")
-                run(f"conda run -n {env_name} dvc config core.no_scm true")
+                run(f"conda run -n {env_name} python -m dvc config core.no_scm true")
         return
 
     print("📦 Initializing DVC repository...")
 
     if use_scm:
-        run(f"conda run -n {env_name} dvc init")
+        run(f"conda run -n {env_name} python -m dvc init")
     else:
-        run(f"conda run -n {env_name} dvc init --no-scm")
+        run(f"conda run -n {env_name} python -m dvc init --no-scm")
 
     if not is_dvc_repo():
         raise RuntimeError("Failed to initialize DVC repository (.dvc/ not created).")
@@ -342,7 +342,7 @@ def ensure_dvc_repo(env_name: str, use_scm: bool = True) -> None:
 def has_dvc_remote(env_name: str) -> bool:
     """Check if DVC has any remote storage configured."""
     try:
-        out = subprocess.check_output(f"conda run -n {env_name} dvc remote list",
+        out = subprocess.check_output(f"conda run -n {env_name} python -m dvc remote list",
                                       shell=True, stderr=subprocess.STDOUT)
         return bool(out.decode("utf-8", errors="ignore").strip())
     except subprocess.CalledProcessError:
@@ -350,7 +350,7 @@ def has_dvc_remote(env_name: str) -> bool:
 
 def dvc_command(env_name: str, args: str) -> None:
     """Execute a DVC command in the Conda environment."""
-    run(f"conda run -n {env_name} dvc {args}")
+    run(f"conda run -n {env_name} python -m dvc {args}")
 
 # ---------- Pipeline Verification ----------
 def verify_prim_input() -> bool:
