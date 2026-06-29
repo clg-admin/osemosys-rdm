@@ -40,8 +40,17 @@ The automated setup will:
 
 1. Create a Conda environment named `OSeMOSYS-RDM-env`
 2. Install all required dependencies (pandas, numpy, DVC, etc.)
-3. Initialize DVC if needed
-4. Execute the complete pipeline
+3. Install the **GLPK and CBC solvers automatically** (both are declared in `environment.yaml` as the conda-forge packages `glpk` and `coincbc`)
+4. Initialize DVC if needed
+5. Execute the complete pipeline
+
+```{note}
+Because GLPK and CBC are part of `environment.yaml`, the automated setup (and any
+`conda env create -f environment.yaml`) installs both solvers for you. You only need
+to install solvers manually if you set up the environment **without** conda — for
+example with `pip install -r requirements.txt` — or if you want a commercial solver
+(CPLEX/Gurobi). See [Solver Installation](#solver-installation) below.
+```
 
 ### Option 2: Manual Setup
 
@@ -60,7 +69,24 @@ conda activate OSeMOSYS-RDM-env
 pip install -r requirements.txt
 ```
 
+```{important}
+The two installation paths differ in how solvers are handled:
+
+- **conda** (`conda env create -f environment.yaml`): GLPK and CBC are installed
+  automatically, since they are listed in `environment.yaml`.
+- **pip** (`pip install -r requirements.txt`): GLPK and CBC are **not** installed —
+  they are not pip packages. You must install them manually (see
+  [Solver Installation](#solver-installation)).
+```
+
 ## Solver Installation
+
+```{note}
+If you set up the environment with conda (the automated setup or
+`conda env create -f environment.yaml`), **GLPK and CBC are already installed** and you
+can skip this section. The steps below are only needed for non-conda installs (e.g. pip)
+or for commercial solvers (CPLEX/Gurobi).
+```
 
 ```{important}
 This workflow is designed and tested for **Windows only**. Linux and macOS support has not been verified and is not recommended at this time.
