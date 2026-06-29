@@ -69,13 +69,14 @@ stages:
   # ============================================================================
   # These stages execute scenario discovery analysis on RDM experiment results.
   # Run with: python run.py prim
-  # Or run all: python run.py all
+  # Or run both: python run.py rdm
 
   prim_files_creator:
     cmd: python scripts/run_prim_files_creator.py
     deps:
-      # RDM results (required input)
-      - Results/
+      # PRIM input: the experiment platform PRIM consumes, for a model computed
+      # elsewhere and imported via scripts/import_prim_input.py
+      - PRIM_Input/
       # PRIM configuration files
       - src/workflow/4_PRIM/Population.xlsx
       - src/workflow/4_PRIM/prim_files_creator_cntrl.xlsx

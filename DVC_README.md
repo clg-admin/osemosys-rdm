@@ -56,8 +56,9 @@ python scripts/run_rdm_experiment.py
 # Execute postprocessing
 python scripts/run_postprocess.py
 
-# Execute PRIM analysis
-python scripts/run_prim.py
+# Execute PRIM analysis (two stages)
+python scripts/run_prim_files_creator.py
+python scripts/run_prim_analysis.py
 ```
 
 **Note**: Manual execution requires:
@@ -107,7 +108,7 @@ The `dvc.yaml` file defines the following stages:
 
 ### 4. Postprocess
 - **Input**: Experimental platform results
-- **Output**: Aggregated CSV files in `src/Results/`
+- **Output**: Aggregated CSV files in `Results/`
 - **Description**: Consolidates results from all futures
 
 ### 5. PRIM Analysis
@@ -178,10 +179,12 @@ Changes to these parameters will trigger re-execution of dependent stages.
 
 ## Metrics
 
-The pipeline generates metrics files:
-- `src/workflow/1_Experiment/Executables/metrics.json`: Base future metrics
-- `src/workflow/1_Experiment/Experimental_Platform/rdm_metrics.json`: RDM metrics
-- `src/workflow/4_PRIM/Output/prim_plots.json`: PRIM analysis metrics
+The pipeline generates metrics files (as tracked in `dvc.yaml`):
+- `src/workflow/1_Experiment/base_future_metrics.json`: Base future metrics
+- `src/workflow/1_Experiment/rdm_experiment_metrics.json`: RDM experiment metrics
+- `src/workflow/3_Postprocessing/postprocess_metrics.json`: Postprocessing metrics
+- `src/workflow/4_PRIM/prim_files_creator_metrics.json`: PRIM files-creator metrics
+- `src/workflow/4_PRIM/prim_analysis_metrics.json`: PRIM analysis metrics
 
 View metrics:
 ```bash
@@ -220,16 +223,21 @@ Ensure your solver (GLPK/CBC/CPLEX/Gurobi) is:
 ## Files Structure
 
 ```
-OSeMOSYS-RDM/
+osemosys-rdm/
 ├── run.py                  # Main runner script
 ├── dvc.yaml               # Pipeline definition
 ├── environment.yaml       # Conda environment specification
+├── requirements.txt       # Python dependencies (pip)
 ├── .dvcignore            # Files to ignore in DVC
 ├── .dvc/                 # DVC internal files (auto-generated)
-├── Interface_RDM.xlsx    # Main configuration file
+├── scripts/              # DVC wrapper scripts (pipeline stages)
+├── tests/                # Unit tests
+├── Results/              # Aggregated outputs (CSV/Parquet)
+├── PRIM_Input/           # Isolated experiment platform consumed by PRIM
 └── src/
-    ├── RUN_RDM.py        # Main execution script
-    └── workflow/         # Pipeline scripts
+    ├── Interface_RDM.xlsx  # Main configuration file
+    ├── RUN_RDM.py        # Legacy execution script
+    └── workflow/         # Pipeline scripts (incl. 5_OSeMOSYS_models/)
 ```
 
 ## Best Practices
@@ -327,28 +335,48 @@ python scripts/run_postprocess.py
 - Executes `src/workflow/3_Postprocessing/create_csv_concatenate.py`
 - Concatenates results from all futures
 - Generates aggregated CSV files
-- Creates metrics in `src/Results/postprocess_metrics.json`
+- Creates metrics in `Results/postprocess_metrics.json`
 
 **Output:**
-- Aggregated CSV files in `src/Results/`
+- Aggregated CSV files in `Results/`
 
-#### 4. PRIM Analysis (`scripts/run_prim.py`)
-Performs scenario discovery analysis.
+#### 4. PRIM Files Creator (`scripts/run_prim_files_creator.py`)
+Builds PRIM-ready input files from the experiment platform.
 
 ```bash
-python scripts/run_prim.py
+python scripts/run_prim_files_creator.py
 ```
 
 **What it does:**
-- Executes `src/workflow/4_PRIM/PRIM_new.py`
-- Analyzes aggregated results using PRIM methodology
-- Generates rules and visualizations
-- Creates metrics in `src/workflow/4_PRIM/Output/prim_plots.json`
+- Reads the isolated experiment platform from `PRIM_Input/` (not `Results/`)
+- Executes `src/workflow/4_PRIM/t3f2_prim_files_creator.py`
+- Creates PRIM input files for scenario discovery
+- Creates metrics in `src/workflow/4_PRIM/prim_files_creator_metrics.json`
 
 **Output:**
-- PRIM analysis results in `src/workflow/4_PRIM/Output/`
-- Excel files with discovered rules
-- Visualization plots
+- PRIM input files in `src/workflow/4_PRIM/t3b_sdiscovery/experiment_data/`
+
+> **Note:** `PRIM_Input/` must be populated first — it holds a model that may
+> have been computed separately from the `exp` pipeline. Import it with
+> `python scripts/import_prim_input.py`.
+
+#### 5. PRIM Analysis (`scripts/run_prim_analysis.py`)
+Performs scenario discovery analysis.
+
+```bash
+python scripts/run_prim_analysis.py
+```
+
+**What it does:**
+- Executes the PRIM structure, manager, and range-finder scripts under
+  `src/workflow/4_PRIM/t3b_sdiscovery/`
+- Analyzes the experiment data using PRIM methodology
+- Identifies predominant parameter ranges
+- Creates metrics in `src/workflow/4_PRIM/prim_analysis_metrics.json`
+
+**Output:**
+- `src/workflow/4_PRIM/t3b_sdiscovery/sd_ana_1_exp_1_Experiment.csv`
+- `src/workflow/4_PRIM/t3b_sdiscovery/t3f4_predominant_ranges_a1_e1_Experiment.xlsx`
 
 ### Debugging Individual Stages
 
@@ -361,10 +389,11 @@ cat src/workflow/1_Experiment/Executables/metrics.json
 cat src/workflow/1_Experiment/Experimental_Platform/rdm_metrics.json
 
 # Postprocessing metrics
-cat src/Results/postprocess_metrics.json
+cat Results/postprocess_metrics.json
 
 # PRIM metrics
-cat src/workflow/4_PRIM/Output/prim_plots.json
+cat src/workflow/4_PRIM/prim_files_creator_metrics.json
+cat src/workflow/4_PRIM/prim_analysis_metrics.json
 ```
 
 **Clean outputs before re-running:**
@@ -376,10 +405,10 @@ rm -rf src/workflow/1_Experiment/Executables/Scenario*_0/
 rm -rf src/workflow/1_Experiment/Experimental_Platform/Futures/
 
 # Clean postprocessing outputs
-rm -rf src/Results/*.csv
+rm -rf Results/*.csv
 
 # Clean PRIM outputs
-rm -rf src/workflow/4_PRIM/Output/*
+rm -rf src/workflow/4_PRIM/t3b_sdiscovery/experiment_data/*
 ```
 
 ### Comparison: Manual vs DVC Execution

@@ -9,12 +9,13 @@ Usage:
     python scripts/run_prim_files_creator.py
 
 Dependencies:
-    - src/Results/ must contain the RDM output CSVs
+    - PRIM_Input/ must contain the experiment platform
+      (Executables/, Experimental_Platform/Futures/) from import_prim_input.py
     - src/workflow/4_PRIM/Population.xlsx
     - src/workflow/4_PRIM/prim_files_creator_cntrl.xlsx
     - src/workflow/4_PRIM/PRIM_t3f2.yaml
 
-Author: Andrey Salazar-Vargas
+Author: OSeMOSYS-RDM Team
 """
 
 import os
@@ -64,16 +65,19 @@ def main():
     prim_script = prim_dir / 't3f2_prim_files_creator.py'
     sdiscovery_dir = prim_dir / 't3b_sdiscovery'
     metrics_file = prim_dir / 'prim_files_creator_metrics.json'
-    results_dir = project_root / 'src' / 'Results'
+    prim_input_dir = project_root / 'PRIM_Input'
+    prim_input_exec = prim_input_dir / 'Executables'
+    prim_input_futs = prim_input_dir / 'Experimental_Platform' / 'Futures'
 
     # Verify prerequisites
     if not prim_script.exists():
         print(f"Error: {prim_script} not found")
         sys.exit(1)
 
-    if not results_dir.exists() or len(list(results_dir.glob("*.csv"))) < 2:
-        print(f"Error: RDM results not found in {results_dir}")
-        print("Please run 'python run.py rdm' first.")
+    if not prim_input_exec.is_dir() or not prim_input_futs.is_dir():
+        print(f"Error: PRIM input not found in {prim_input_dir}")
+        print("Populate it with 'python scripts/import_prim_input.py' "
+              "(brings the PRIM model platform from its source branch).")
         sys.exit(1)
 
     start_time = time.time()

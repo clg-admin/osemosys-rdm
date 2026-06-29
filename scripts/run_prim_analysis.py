@@ -14,7 +14,7 @@ Dependencies:
     - src/workflow/4_PRIM/t3b_sdiscovery/experiment_data/ (from prim_files_creator)
     - src/workflow/4_PRIM/t3b_sdiscovery/Analysis_1/prim_structure.xlsx
 
-Author: Andrey Salazar-Vargas
+Author: OSeMOSYS-RDM Team
 """
 
 import os

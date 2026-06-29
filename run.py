@@ -16,7 +16,7 @@ Features:
 - Runs 'dvc repro' to execute the selected pipeline
 - Tracks execution time and provides detailed progress feedback
 
-Author: Andrey Salazar-Vargas
+Author: OSeMOSYS-RDM Team
 """
 
 import argparse
@@ -321,15 +321,15 @@ def ensure_dvc_repo(env_name: str, use_scm: bool = True) -> None:
             config_text = config_file.read_text() if config_file.exists() else ""
             if "no_scm" not in config_text:
                 print("  Configuring DVC for standalone mode (no Git)...")
-                run(f"conda run -n {env_name} dvc config core.no_scm true")
+                run(f"conda run -n {env_name} python -m dvc config core.no_scm true")
         return
 
     print("📦 Initializing DVC repository...")
 
     if use_scm:
-        run(f"conda run -n {env_name} dvc init")
+        run(f"conda run -n {env_name} python -m dvc init")
     else:
-        run(f"conda run -n {env_name} dvc init --no-scm")
+        run(f"conda run -n {env_name} python -m dvc init --no-scm")
 
     if not is_dvc_repo():
         raise RuntimeError("Failed to initialize DVC repository (.dvc/ not created).")
@@ -342,7 +342,7 @@ def ensure_dvc_repo(env_name: str, use_scm: bool = True) -> None:
 def has_dvc_remote(env_name: str) -> bool:
     """Check if DVC has any remote storage configured."""
     try:
-        out = subprocess.check_output(f"conda run -n {env_name} dvc remote list",
+        out = subprocess.check_output(f"conda run -n {env_name} python -m dvc remote list",
                                       shell=True, stderr=subprocess.STDOUT)
         return bool(out.decode("utf-8", errors="ignore").strip())
     except subprocess.CalledProcessError:
@@ -350,16 +350,23 @@ def has_dvc_remote(env_name: str) -> bool:
 
 def dvc_command(env_name: str, args: str) -> None:
     """Execute a DVC command in the Conda environment."""
-    run(f"conda run -n {env_name} dvc {args}")
+    run(f"conda run -n {env_name} python -m dvc {args}")
 
 # ---------- Pipeline Verification ----------
-def verify_rdm_results() -> bool:
-    """Check if RDM results exist (required for PRIM)."""
-    results_dir = Path("src/Results")
-    if not results_dir.exists():
+def verify_prim_input() -> bool:
+    """Check if the PRIM input exists (required for PRIM).
+
+    PRIM does not read the consolidated CSVs in Results/; it consumes the
+    per-future experiment platform. Because EXP runs a different model, PRIM's
+    platform is kept in PRIM_Input/, imported from its source branch via
+    scripts/import_prim_input.py.
+    """
+    base = Path("PRIM_Input")
+    executables = base / "Executables"
+    futures = base / "Experimental_Platform" / "Futures"
+    if not (executables.is_dir() and futures.is_dir()):
         return False
-    csv_files = list(results_dir.glob("*.csv"))
-    return len(csv_files) >= 1  # At least Input CSV from rdm_experiment
+    return any(executables.iterdir()) and any(futures.iterdir())
 
 # ---------- Duration Formatting ----------
 def format_duration(start_time: dt.datetime, end_time: dt.datetime) -> str:
@@ -420,14 +427,14 @@ def run_prim_pipeline(env_name: str, skip_pull: bool) -> None:
     print("Stages: prim_files_creator → prim_analysis")
     print("=" * 70)
 
-    # Verify RDM results exist
-    if not verify_rdm_results():
-        print("\n❌ Error: RDM results not found in src/Results/")
-        print("   PRIM requires the output from RDM pipeline.")
-        print("   Please run 'python run.py exp' first.")
+    # Verify PRIM input snapshot exists
+    if not verify_prim_input():
+        print("\n❌ Error: PRIM input not found in PRIM_Input/")
+        print("   PRIM consumes the experiment platform, not Results/.")
+        print("   Populate it with 'python scripts/import_prim_input.py'.")
         sys.exit(1)
 
-    print("\n✓ RDM results found in src/Results/")
+    print("\n✓ PRIM input found in PRIM_Input/")
 
     # Pull from remote if configured
     if not skip_pull and has_dvc_remote(env_name):

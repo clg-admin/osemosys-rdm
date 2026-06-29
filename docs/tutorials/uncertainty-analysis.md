@@ -186,7 +186,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load results
-df = pd.read_csv('src/Results/OSEMOSYS_REG1_Energy_Output.csv')
+df = pd.read_csv('Results/OSEMOSYS_REG1_Energy_Output.csv')
 
 # Filter to cost results
 costs = df[df['Variable'] == 'TotalDiscountedCost'].copy()
@@ -259,7 +259,7 @@ print(f"Low-cost scenarios (bottom 10%): {low_cost_futures}")
 
 ```python
 # Load inputs
-inputs = pd.read_csv('src/Results/OSEMOSYS_REG1_Energy_Input.csv')
+inputs = pd.read_csv('Results/OSEMOSYS_REG1_Energy_Input.csv')
 
 # Filter to our uncertain parameters
 gas_cost = inputs[

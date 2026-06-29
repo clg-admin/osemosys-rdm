@@ -6,7 +6,7 @@ This script executes the postprocessing stage that aggregates and concatenates
 results from all RDM futures into final CSV files.
 
 This script calls 1_output_dataset_creator.py which consolidates parquet outputs
-from the experiment stage into final CSV files in src/Results/.
+from the experiment stage into final CSV files in Results/.
 
 Usage:
     python scripts/run_postprocess.py
@@ -17,7 +17,7 @@ Manual execution:
 DVC integration:
     Called automatically by DVC when executing the 'postprocess' stage.
 
-Author: Andrey Salazar-Vargas
+Author: OSeMOSYS-RDM Team
 """
 
 import os
@@ -74,7 +74,7 @@ def main():
     project_root = Path(__file__).parent.parent
     experiment_dir = project_root / 'src' / 'workflow' / '1_Experiment'
     postprocess_script = experiment_dir / '1_output_dataset_creator.py'
-    results_dir = project_root / 'src' / 'Results'
+    results_dir = project_root / 'Results'
     metrics_file = project_root / 'src' / 'workflow' / '3_Postprocessing' / 'postprocess_metrics.json'
     interface_path = project_root / 'src' / 'Interface_RDM.xlsx'
 

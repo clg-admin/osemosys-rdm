@@ -39,9 +39,33 @@ Usage::
 
 """
 
+import re
 import sys
 import traceback
 from collections import defaultdict
+
+
+def parse_model_sets(model_file):
+    """Return the names of all sets declared in an OSeMOSYS model file.
+
+    Used so preprocessing only emits the helper sets the chosen model
+    actually declares. The three ``INPUTx*`` sets exist only in
+    ``model.v.5.4``; ``model.v.5.0`` / ``model.v.5.3`` would otherwise fail
+    to build with e.g. "INPUTxNEWxCAPACITYperFUEL not a set".
+
+    Returns ``None`` if the file cannot be read or declares no sets, in which
+    case the caller emits every set (backwards-compatible behaviour).
+    """
+    declared = set()
+    try:
+        with open(model_file, "r") as mf:
+            for line in mf:
+                match = re.match(r"\s*set\s+([A-Za-z_]\w*)", line)
+                if match:
+                    declared.add(match.group(1))
+    except OSError:
+        return None
+    return declared if declared else None
 
 
 def parse_set_line(line):
@@ -56,7 +80,11 @@ def parse_set_line(line):
     return []
 
 
-def main(data_infile, data_outfile):
+def main(data_infile, data_outfile, model_file=None):
+
+    # Sets the chosen model declares. When None (no model file given, file
+    # unreadable, or model standalone), every preprocessed set is emitted.
+    declared_sets = parse_model_sets(model_file) if model_file else None
 
     # =========================================================================
     # STEP 1 - Read lines, filtering out any previous preprocessing output
@@ -354,6 +382,11 @@ def main(data_infile, data_outfile):
     # STEP 6 - Write output file
     # =========================================================================
     def file_output_function(d, set_list, set_name, extra_char, output_type=None):
+        # Skip preprocessed sets the chosen model does not declare (e.g. the
+        # INPUTx* sets only exist in model.v.5.4, not model.v.5.0/5.3).
+        this_set_name = set_name.split()[1].rstrip("[")
+        if declared_sets is not None and this_set_name not in declared_sets:
+            return
         for each in set_list:
             if each in d:
                 line = (
@@ -431,12 +464,11 @@ def main(data_infile, data_outfile):
             dict_all, tech_list, "set MODEperTECHNOLOGY[", "*"
         )
 
-        # Only emit INPUTxFUEL when there is data. The per-element INPUTx* sets
-        # above are already skipped when input_fuel_list is empty; this set was
-        # the only one written unconditionally. Model variants that do not
-        # declare INPUTxFUEL (e.g. model.v.5.0) otherwise fail to build with
-        # "INPUTxFUEL not a set" on an empty `set INPUTxFUEL:=;`.
-        if input_fuel_list:
+        # Only emit INPUTxFUEL when there is data AND the model declares it.
+        # Model variants that do not declare INPUTxFUEL (e.g. model.v.5.0)
+        # otherwise fail to build with "INPUTxFUEL not a set".
+        emit_input_fuel = declared_sets is None or "INPUTxFUEL" in declared_sets
+        if input_fuel_list and emit_input_fuel:
             line = "set INPUTxFUEL:=" + ", ".join(input_fuel_list)
             file_out.write(line + ";\n")
 

@@ -83,7 +83,7 @@ The RDM experiment generates multiple futures by systematically varying uncertai
 4. Create modified scenario files for each future (with automatic data preprocessing)
 5. Execute all futures (parallelized)
 6. Store results in Parquet format
-7. Generate consolidated `Energy_Input.csv` in `src/Results/`
+7. Generate consolidated `Energy_Input.csv` in `Results/`
 
 **Key Concepts:**
 
@@ -115,7 +115,7 @@ The `Energy_Input.csv` is generated during the `rdm_experiment` stage (immediate
 
 **Output Files:**
 ```
-src/Results/
+Results/
 ├── OSEMOSYS_{Region}_Energy_Output.csv   (generated in postprocess)
 ├── OSEMOSYS_{Region}_Energy_Input.csv    (generated in rdm_experiment)
 └── (additional analysis files)
@@ -212,7 +212,7 @@ src/workflow/1_Experiment/
 Results/
 └── solution_status.txt                    # Per-future solver status (optimal/infeasible)
 
-src/Results/
+Results/
 ├── OSEMOSYS_{Region}_Energy_Output.csv
 ├── OSEMOSYS_{Region}_Energy_Input.csv
 └── *.parquet files
@@ -225,7 +225,7 @@ OSeMOSYS-RDM is designed for the GNU MathProg implementation of OSeMOSYS.
 ### Tested Formulations
 
 The workflow has been tested with **MUIO v5.3** and **v5.4**:
-- Reference formulations: `model.v.5.3.txt` and `model.v.5.4.txt`
+- Reference formulations under `src/workflow/5_OSeMOSYS_models/`: `model.v.5.0.txt`, `model.v.5.3.txt`, and `model.v.5.4.txt`
 - Standard OSeMOSYS sets and parameters
 - Support for storage and user-defined constraints
 - v5.4 requires the automatic data preprocessing step (handled by `preprocess_data.py`)

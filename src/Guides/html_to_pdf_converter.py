@@ -1,6 +1,6 @@
 """
 Advanced HTML to PDF Converter with custom styling for each guide
-Author: Andrey Salazar-Vargas
+Author: OSeMOSYS-RDM Team
 """
 
 from playwright.sync_api import sync_playwright

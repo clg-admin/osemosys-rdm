@@ -1,7 +1,8 @@
 # Results folder (DVC manages this directory)
 Results/
-src/Results/*
-!src/Results/.gitkeep
+
+# PRIM input snapshot (DVC manages this directory)
+# PRIM_Input/
 
 # Dashboard test (excluded due to large file sizes)
 Dashboard.twbx
@@ -35,10 +36,10 @@ src/workflow/4_PRIM/t3b_sdiscovery/experiment_data/*
 !src/workflow/4_PRIM/t3b_sdiscovery/experiment_data/.gitkeep
 
 # PRIM generated outputs (DVC manages these)
-src/workflow/4_PRIM/t3b_sdiscovery/sd_ana_*.csv
-src/workflow/4_PRIM/t3b_sdiscovery/sd_ana_*.txt
-src/workflow/4_PRIM/t3b_sdiscovery/t3f4_predominant_ranges_*.xlsx
-src/workflow/4_PRIM/t3b_sdiscovery/subtbl_*.pickle
+# src/workflow/4_PRIM/t3b_sdiscovery/sd_ana_*.csv
+# src/workflow/4_PRIM/t3b_sdiscovery/sd_ana_*.txt
+# src/workflow/4_PRIM/t3b_sdiscovery/t3f4_predominant_ranges_*.xlsx
+# src/workflow/4_PRIM/t3b_sdiscovery/subtbl_*.pickle
 
 # DVC metrics files
 src/workflow/1_Experiment/base_future_metrics.json

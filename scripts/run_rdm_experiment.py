@@ -14,7 +14,7 @@ Manual execution:
 DVC integration:
     Called automatically by DVC when executing the 'rdm_experiment' stage.
 
-Author: Andrey Salazar-Vargas
+Author: OSeMOSYS-RDM Team
 """
 
 import os

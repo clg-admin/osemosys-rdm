@@ -55,19 +55,19 @@ stages:
       - src/workflow/1_Experiment/0_From_Confection/B1_Model_Structure.xlsx
     outs:
       - src/workflow/1_Experiment/Experimental_Platform/
-      - src/Results/    # Energy_Input.csv is generated here
+      - Results/    # Energy_Input.csv is generated here
 
   postprocess:
     cmd: python scripts/run_postprocess.py
     deps:
       - src/workflow/1_Experiment/Experimental_Platform/
       - src/workflow/1_Experiment/Executables/
-      - src/Results/    # Reads Energy_Input.csv from rdm_experiment
+      - Results/    # Reads Energy_Input.csv from rdm_experiment
 
   prim_files_creator:
     cmd: python scripts/run_prim_files_creator.py
     deps:
-      - src/Results/
+      - Results/
     outs:
       - src/workflow/4_PRIM/t3b_sdiscovery/experiment_data/
 
@@ -229,8 +229,8 @@ DVC will create `.dvc/` with `--no-scm` flag automatically.
 Each stage generates metrics files:
 
 ```{note}
-The `rdm_experiment` stage now generates the consolidated `Energy_Input.csv` in `src/Results/`,
-while the `postprocess` stage generates `Energy_Output.csv`. This means `src/Results/` is an
+The `rdm_experiment` stage now generates the consolidated `Energy_Input.csv` in `Results/`,
+while the `postprocess` stage generates `Energy_Output.csv`. This means `Results/` is an
 output of `rdm_experiment` and a dependency of `postprocess`.
 ```
 

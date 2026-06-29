@@ -147,7 +147,7 @@ Scenario1_0_Output.sol    # Raw solver output
 import pandas as pd
 
 # Load outputs
-df = pd.read_csv('src/Results/OSEMOSYS_REG1_Energy_Output.csv')
+df = pd.read_csv('Results/OSEMOSYS_REG1_Energy_Output.csv')
 
 # View columns
 print(df.columns.tolist())
@@ -372,7 +372,7 @@ python run.py exp
 
 ```python
 import pandas as pd
-df = pd.read_csv('src/Results/OSEMOSYS_REG1_Energy_Output.csv')
+df = pd.read_csv('Results/OSEMOSYS_REG1_Energy_Output.csv')
 print(f"Total records: {len(df)}")
 print(f"Technologies: {df['TECHNOLOGY'].unique()}")
 ```

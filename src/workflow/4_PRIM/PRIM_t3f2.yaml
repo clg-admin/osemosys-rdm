@@ -4,6 +4,10 @@
 ########################################################################################
 # Directories
 dir_exps: '1_Experiment'
+# Dedicated PRIM input root (isolates PRIM data from the live 1_Experiment runs).
+# Relative to the t3f2 script folder (src/workflow/4_PRIM) -> repo-root/PRIM_Input.
+# If left empty/removed, t3f2 falls back to ../1_Experiment.
+prim_input_root: '../../../PRIM_Input'
 dir_sdisc: './t3b_sdiscovery'
 experi_data: '/experiment_data/'
 Executables: 'Executables'

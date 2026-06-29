@@ -22,7 +22,7 @@ src/workflow/0_Scenarios/
 Your scenario file should be a valid GNU MathProg data file compatible with OSeMOSYS.
 
 ```{note}
-A reference formulation consistent with this workflow is included as `model.v.5.3.txt`.
+Reference formulations consistent with this workflow are included under `src/workflow/5_OSeMOSYS_models/` (e.g. `model.v.5.3.txt`).
 ```
 
 ## Step 2: Configure the Run
@@ -115,7 +115,7 @@ Stages: base_future → rdm_experiment → postprocess
 After execution, results are available in:
 
 ```
-src/Results/
+Results/
 ```
 
 ### Output Files

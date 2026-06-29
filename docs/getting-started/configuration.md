@@ -234,14 +234,14 @@ The workflow expects this directory structure:
 osemosys-rdm/
 ├── src/
 │   ├── Interface_RDM.xlsx          # Main configuration
-│   ├── workflow/
-│   │   ├── 0_Scenarios/            # Input scenario files
-│   │   ├── 1_Experiment/           # Experiment workspace
-│   │   ├── 2_Miscellaneous/        # Reference files
-│   │   ├── 3_Postprocessing/       # Output processing
-│   │   └── 4_PRIM/                 # PRIM configuration
-│   └── Results/                    # Final outputs
-├── model.v.5.3.txt                 # OSeMOSYS formulation (v5.3)
-├── model.v.5.4.txt                 # OSeMOSYS formulation (v5.4)
+│   └── workflow/
+│       ├── 0_Scenarios/            # Input scenario files
+│       ├── 1_Experiment/           # Experiment workspace
+│       ├── 2_Miscellaneous/        # Reference files
+│       ├── 3_Postprocessing/       # Output processing
+│       ├── 4_PRIM/                 # PRIM configuration
+│       └── 5_OSeMOSYS_models/      # OSeMOSYS formulations (v5.0 / v5.3 / v5.4)
+├── Results/                        # Final outputs
+├── PRIM_Input/                     # Isolated experiment platform consumed by PRIM
 └── run.py                          # Main runner script
 ```
