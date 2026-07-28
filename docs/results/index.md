@@ -45,7 +45,7 @@ python run.py exp
 
 - `python` tells the computer to use Python to run a program
 - `run.py` is the main program file that controls the workflow
-- `rdm` tells the program to run the RDM (Robust Decision Making) pipeline
+- `exp` tells the program to run the experiment pipeline, used to explore the sensitivity of selected model parameters
 
 **Other available options:**
 - `python run.py prim` - Runs only the PRIM analysis (requires RDM results already available)
