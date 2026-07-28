@@ -113,8 +113,8 @@ stages:
     deps:
     - path: PRIM_Input/
       hash: md5
-      md5: 39f913596bbc7f76216461288cd31e02.dir
-      size: 371500557
+      md5: 0f2c15534a8fe33b696ff941c8bb4598.dir
+      size: 306656466
       nfiles: 108
     - path: scripts/run_prim_files_creator.py
       hash: md5
@@ -130,8 +130,8 @@ stages:
       size: 16168
     - path: src/workflow/4_PRIM/prim_files_creator_cntrl.xlsx
       hash: md5
-      md5: 1482d6a2f9cbb438b0914ec4bf174b3e
-      size: 26022
+      md5: 9c1d6e18210ae33198403b6d1eb0c584
+      size: 23584
     - path: src/workflow/4_PRIM/t3f2_prim_files_creator.py
       hash: md5
       md5: 1027958f272412bdeee4b59c8e7a4c75
@@ -139,7 +139,7 @@ stages:
     outs:
     - path: src/workflow/4_PRIM/prim_files_creator_metrics.json
       hash: md5
-      md5: 3f67749849a3fbbdb7041ca1b76d670d
+      md5: 26635e4d8ff720ea1a72eb15e40ca3e8
       size: 129
     - path: src/workflow/4_PRIM/t3b_sdiscovery/experiment_data/
       hash: md5
@@ -159,8 +159,8 @@ stages:
       size: 45289
     - path: src/workflow/4_PRIM/t3b_sdiscovery/Units.xlsx
       hash: md5
-      md5: 31a290f553cc2a3834636839181ec1d1
-      size: 16722
+      md5: e21474c710e1e617cb77ac7fb00f388e
+      size: 19894
     - path: src/workflow/4_PRIM/t3b_sdiscovery/experiment_data/
       hash: md5
       md5: d751713988987e9331980363e24189ce.dir
@@ -181,14 +181,14 @@ stages:
     outs:
     - path: src/workflow/4_PRIM/prim_analysis_metrics.json
       hash: md5
-      md5: ab58dc5436de9e9820dfa2833400653c
+      md5: 4474994e452891052b63a08da66b91b0
       size: 149
     - path: src/workflow/4_PRIM/t3b_sdiscovery/sd_ana_1_exp_1_Experiment.csv
       hash: md5
-      md5: 5df4ff65cb1245dfb284a120361d8fca
-      size: 19612
+      md5: c6bfacd9181f8babd5d8e808e7423ea1
+      size: 18931
     - path: 
         src/workflow/4_PRIM/t3b_sdiscovery/t3f4_predominant_ranges_a1_e1_Experiment.xlsx
       hash: md5
-      md5: f61505e871626c0839b980790ddbdb74
-      size: 10158
+      md5: ed6be7e8208ed5c6cf43c14c30707713
+      size: 10232
