@@ -1,6 +1,15 @@
 # Example Execution
 
-This guide shows you how to run OSeMOSYS-RDM step-by-step using Anaconda. Specifically, we focus on the automated pipeline, using DVC, to reproduce the Uganda analysis. This is a beginner-friendly guide that assumes no prior experience with command-line interfaces.
+This guide shows you how to run OSeMOSYS-RDM step-by-step using Anaconda. Specifically, we focus on the automated pipeline, using DVC. This is a beginner-friendly guide that assumes no prior experience with command-line interfaces.
+
+```{important}
+The pipeline includes two modules, and on this branch (`main`) they are configured with different models:
+
+- `exp` (experimentation): runs the parameter sensitivity experiments using a **South Africa** model.
+- `prim` (PRIM analysis): uses a **Uganda** model, analyzing the outputs of a previous `exp` run performed with that model.
+
+The `exp` configuration for the Uganda model is not on this branch — it lives on the `uganda` branch. Therefore, running this pipeline on `main` does not fully reproduce the Uganda analysis.
+```
 
 ## Step-by-Step Execution Guide
 
