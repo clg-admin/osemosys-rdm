@@ -6,7 +6,7 @@ This guide shows you how to run OSeMOSYS-RDM step-by-step using Anaconda. Specif
 The pipeline includes two modules, and on this branch (`main`) they are configured with different models:
 
 - `exp` (experimentation): runs the parameter sensitivity experiments using a **South Africa** model.
-- `prim` (PRIM analysis): uses a **Uganda** model, analyzing the outputs of a previous `exp` run performed with that model.
+- `prim` (PRIM analysis): uses a **Uganda** model, analyzing the outputs of a previous `exp` run performed with that model. The `prim` module needs those outputs, which are already provided in the `PRIM_Input/` folder at the root of the repository.
 
 The `exp` configuration for the Uganda model is not on this branch — it lives on the `uganda` branch. Therefore, running this pipeline on `main` does not fully reproduce the Uganda analysis.
 ```
